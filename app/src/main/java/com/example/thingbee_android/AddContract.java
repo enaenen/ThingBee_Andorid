@@ -1,4 +1,4 @@
-package com.example.ararmsettings;
+package com.example.thingbee_android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +12,8 @@ import android.widget.Toast;
 
 public class AddContract extends AppCompatActivity {
     private TextView textView;
-    private String text;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
 
     public static final String SHARED_PREFS = "contracts";
     public static final String PHONENUMBER = "phoneNumber";
@@ -34,6 +32,7 @@ public class AddContract extends AppCompatActivity {
 
         textView = findViewById(R.id.phoneNumber);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // 뒤로가기 버튼 눌렀을때 처리
@@ -46,12 +45,13 @@ public class AddContract extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     public void onClick(View view) {
         switch (view.getId()) {
             case (R.id.confirmBtn):
                 saveData();
-                loadData();
-                updateViews();
+                //  loadData();
+                // updateViews();
                 super.onBackPressed();
                 break;
             case (R.id.cancleBtn):
@@ -64,16 +64,18 @@ public class AddContract extends AppCompatActivity {
     public void saveData() {
         editor.putString(PHONENUMBER, textView.getText().toString());
         editor.apply();
-        Toast.makeText(this, "Data Saved", Toast.LENGTH_LONG).show();
-    }
-
-    public void loadData() {
-        editor = sharedPreferences.edit();
-        editor.putString("PHONENUMBER", textView.getText().toString());
         editor.commit();
-    }
-
-    public void updateViews() {
-     //   textView.setText(text);
+        Toast.makeText(this, textView.getText(), Toast.LENGTH_LONG).show();
     }
 }
+
+//    public void loadData() {
+//        editor = sharedPreferences.edit();
+//        editor.putString(PHONENUMBER, textView.getText().toString());
+//        editor.commit();
+//    }
+//
+//    public void updateViews() {
+//        textView.setText(text);
+//    }
+//}

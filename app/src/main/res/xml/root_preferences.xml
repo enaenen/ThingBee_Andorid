@@ -21,8 +21,8 @@
             app:title="연락처 추가"
             app:summary="비상호출 연락처를 추가합니다.">
             <intent
-                android:targetClass="com.example.ararmsettings.AddContract"
-                android:targetPackage="com.example.ararmsettings" />
+                android:targetClass="com.example.thingbee_android.AddContract"
+                android:targetPackage="com.example.thingbee_android" />
         </Preference>
     </PreferenceCategory>
 
