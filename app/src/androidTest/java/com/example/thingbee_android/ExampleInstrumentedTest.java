@@ -1,4 +1,4 @@
-package com.example.ararmsettings;
+package com.example.thingbee_android;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.ararmsettings", appContext.getPackageName());
+        assertEquals("com.example.thingbee_android", appContext.getPackageName());
     }
 }

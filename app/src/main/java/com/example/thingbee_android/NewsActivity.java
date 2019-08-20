@@ -1,4 +1,4 @@
-package com.example.ararmsettings;
+package com.example.thingbee_android;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ararmsettings.retorift.ApiNewsService;
-import com.example.ararmsettings.retorift.ArticleInfoVO;
+import com.example.thingbee_android.retorift.ApiNewsService;
+import com.example.thingbee_android.retorift.ArticleInfoVO;
 
 import java.util.ArrayList;
 import java.util.List;

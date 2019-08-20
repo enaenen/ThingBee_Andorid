@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ArarmSettings</string>
+    <string name="app_name">thingbee_android</string>
     <string name="title_activity_settings">Settings</string>
     <!-- Preference Titles -->
 
