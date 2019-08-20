@@ -1,19 +1,33 @@
 <resources>
     <string name="app_name">ArarmSettings</string>
     <string name="title_activity_settings">Settings</string>
-
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!--연락처-->
+    <string name="contract">연락처</string>
+    <string name="add_contract">연락처 추가</string>
+    <!--지도표시설정-->
+    <string name="map_btn_status">지도 표시 설정</string>
+    <string name="stats">통계</string>
+    <string name="stats_summary">통계 화면에 버튼을 표시합니다.</string>
+    <string name="news">뉴스</string>
+    <string name="news_summary">뉴스 화면에 버튼을 표시합니다.</string>
+    <string name="maps">지도 </string>
+    <string name="maps_summary">지도 화면에 버튼을 표시합니다.</string>
+    <string name="path">길찾기</string>
+    <string name="path_summary">길찾기 화면에 버튼을 표시합니다.</string>
+    <!--페이크 콜/ 호출 관련-->
+    <string name="emergency">비상호출 설정</string>
+    <string name="emergency_active">비상호출 동작 설정</string>
+    <string name="fakecall_cooltime">페이크 콜 대기 시간 </string>
+    <string name="fakecall_default">2</string>
+    <string name="fakecall_summary">페이크 콜 대기 시간 설정</string>
+
 </resources>
