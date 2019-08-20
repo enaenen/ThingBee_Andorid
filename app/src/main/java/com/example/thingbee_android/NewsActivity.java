@@ -1,5 +1,6 @@
 package com.example.thingbee_android;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -20,7 +21,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements menu_topbar.OnFragmentInteractionListener {
     private Retrofit retrofit;
     private ApiNewsService newsService;
     private RecyclerView mRecyclerView;
@@ -84,6 +85,11 @@ public class NewsActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     public void add_article(){
