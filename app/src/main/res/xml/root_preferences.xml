@@ -14,38 +14,54 @@
   ~ limitations under the License.
   -->
 
-<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <PreferenceCategory app:title="@string/messages_header">
-
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
-
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory app:title="@string/add_contract">
+        <Preference
+            app:title="연락처 추가"
+            app:summary="비상호출 연락처를 추가합니다.">
+            <intent
+                android:targetClass="com.example.ararmsettings.AddContract"
+                android:targetPackage="com.example.ararmsettings" />
+        </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
-
+    <PreferenceCategory app:title="@string/map_btn_status">
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
+            app:key="btn_maps"
+            app:title="@string/maps"
+            app:summary="@string/maps_summary"
+            />
         <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:key="btn_news"
+            app:title="@string/news"
+            app:summary="@string/news_summary"
+            />
+        <SwitchPreferenceCompat
+            app:key="btn_stats"
+            app:title="@string/stats"
+            app:summary="@string/stats_summary"
+            />
+        <SwitchPreferenceCompat
+            app:key="btn_path"
+            app:title="@string/path"
+            app:summary="@string/path_summary"
+            />
+    </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/emergency">
+        <SwitchPreferenceCompat
+            app:key="emergency"
+            app:title="@string/emergency_active"
+            app:summary="전원 버튼 3번 누르기"
+            />
+        <ListPreference
+            app:defaultValue="@string/fakecall_default"
+            app:entries="@array/fakecall_entries"
+            app:entryValues="@array/fakecall_values"
+            app:key="fakecall"
+            app:title="@string/fakecall_cooltime"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
