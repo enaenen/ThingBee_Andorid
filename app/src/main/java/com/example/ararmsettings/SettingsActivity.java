@@ -13,7 +13,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-public class SettingsActivity extends AppCompatActivity implements Preference.OnPreferenceChangeListener {
+public class SettingsActivity extends AppCompatActivity {
 
     public static final String SHARED_PREFS = "alarm_setting";
     public static final String BUTTONSETTING = "button_set";
@@ -37,12 +37,12 @@ public class SettingsActivity extends AppCompatActivity implements Preference.On
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-//        settingsFragment = new SettingsFragment();
-//        getFragmentManager().beginTransaction()
-//                .replace(R.id.settings, new SettingsFragment())
-//                .commit();
-//        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //sharedPreferences.setOnPreferenceChangeListener(...);
+
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this /* Activity context */);
+        boolean sgut = sharedPreferences.getBoolean("btn_maps",false);
+        System.out.println(sgut);
+
     }
 
     @Override
@@ -51,33 +51,6 @@ public class SettingsActivity extends AppCompatActivity implements Preference.On
        // getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
     }
-    //    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//        System.out.println("fuck");
-//        if (key.equals("btn_maps")) {
-//            Log.i("PreferenceChange", "Preference value was updated to: " + sharedPreferences.getString(key, ""));
-//        }
-//    }
-
-    private Preference.OnPreferenceChangeListener onPreferenceChangeListener = new Preference.OnPreferenceChangeListener(){
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            return true;
-        }
-    };
-    private void setOnPreferenceChange(Preference mPreference) {
-        mPreference.setOnPreferenceChangeListener(onPreferenceChangeListener);
-
-        onPreferenceChangeListener.onPreferenceChange(mPreference,
-                PreferenceManager.getDefaultSharedPreferences(mPreference.getContext()).getString(mPreference.getKey(), ""));
-    }
-
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        return false;
-    }
-
-
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

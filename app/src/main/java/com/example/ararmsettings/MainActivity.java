@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     Button settings;
     Button submit;
+    Button buttonFakeCall;
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -33,10 +34,21 @@ public class MainActivity extends AppCompatActivity {
         settings = findViewById(R.id.buttonSettings);
         submit = findViewById(R.id.buttonSubmit);
 
-       // preferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        preferences = PreferenceManager.getDefaultSharedPreferences(com.example.ararmsettings.SettingsActivity.class);
+        preferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         editor = preferences.edit();
         value = preferences.getString("PHONENUMBER","Data Not Found");
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this /* Activity context */);
+        boolean mapbtn = sharedPreferences.getBoolean("btn_maps",false);
+        boolean newsbtn = sharedPreferences.getBoolean("btn_news",false);
+        boolean statsbtn = sharedPreferences.getBoolean("btn_stats",false);
+        boolean pathbtn = sharedPreferences.getBoolean("btn_path",false);
+
+        System.out.println("map 버튼  : " + mapbtn);
+        System.out.println("news 버튼  : " + newsbtn);
+        System.out.println("stats 버튼  : " + statsbtn);
+        System.out.println("path 버튼  : " + pathbtn);
+
 
     }
     public void onClick(View view) {
@@ -45,11 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
             case R.id.buttonSubmit:
-                //value = preferences.getString("PHONENUMBER","Data Not Found");
-                value=preferences.getString()
+                value = preferences.getString("PHONENUMBER","Data Not Found");
                 Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
                 textView.setText(value);
                 break;
+            case R.id.buttonFakeCall:
+                startActivity(new Intent(this, FakeCall.class));
         }
     }
 }
