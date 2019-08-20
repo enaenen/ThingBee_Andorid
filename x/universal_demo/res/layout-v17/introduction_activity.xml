@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout android:orientation="vertical" android:id="@id/introduction_activity_root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v4.view.ViewPager android:id="@id/introduction_activity_pager" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <FrameLayout android:background="@android:color/transparent" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentBottom="true">
+        <android.support.percent.PercentRelativeLayout android:layout_gravity="bottom" android:id="@id/introduction_activity_bottom_bar" android:layout_width="fill_parent" android:layout_height="64.0dip" android:layout_marginLeft="32.0dip" android:layout_marginRight="32.0dip" android:layout_marginBottom="16.0dip" android:animateLayoutChanges="true">
+            <ImageButton android:id="@id/introduction_activity_button_previous" android:background="?selectableItemBackgroundBorderless" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/introduction_ic_arrow_previous" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true" android:layout_alignParentStart="true" />
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_toLeftOf="@id/introduction_activity_button_next" android:layout_toRightOf="@id/introduction_activity_button_previous" android:animateLayoutChanges="true" android:layout_toStartOf="@id/introduction_activity_button_next" android:layout_toEndOf="@id/introduction_activity_button_previous" app:layout_widthPercent="60.000004%">
+                <Button android:id="@id/introduction_activity_skip" android:padding="0.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?borderlessButtonStyle" />
+                <FrameLayout android:id="@id/introduction_activity_container_indicator" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+            </LinearLayout>
+            <ImageButton android:id="@id/introduction_activity_button_next" android:background="?selectableItemBackgroundBorderless" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/introduction_ic_arrow_next" android:layout_alignParentRight="true" android:layout_alignParentEnd="true" />
+        </android.support.percent.PercentRelativeLayout>
+    </FrameLayout>
+</android.support.percent.PercentRelativeLayout>

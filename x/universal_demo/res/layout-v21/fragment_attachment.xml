@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/fragment" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ImageView android:id="@id/backgroundImage" android:background="@color/black" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerInside" />
+    <ImageButton android:id="@id/playButton" android:background="@color/black_translucent" android:padding="@dimen/default_padding" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_play_white" android:layout_centerHorizontal="true" android:layout_centerVertical="true" android:elevation="6.0dip" />
+    <LinearLayout android:orientation="vertical" android:id="@id/bottomHolder" android:background="@drawable/highlight_gradient" android:paddingTop="@dimen/default_padding" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+        <TextView android:textColor="@android:color/white" android:id="@id/description" android:padding="@dimen/spacing_xl" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <View android:id="@id/thumbnail_container_padding" android:layout_width="fill_parent" android:layout_height="@dimen/thumbnail_height" />
+    </LinearLayout>
+    <LinearLayout android:layout_gravity="center" android:orientation="vertical" android:id="@id/attachmentProgress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:layout_centerVertical="true">
+        <ProgressBar android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:indeterminate="true" />
+        <TextView android:textAppearance="?android:textAppearanceMedium" android:textColor="#ffffffff" android:id="@id/textView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/loading" />
+    </LinearLayout>
+</RelativeLayout>

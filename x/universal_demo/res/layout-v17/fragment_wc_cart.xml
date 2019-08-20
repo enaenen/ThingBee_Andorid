@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/activity_check_out" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:gravity="center" android:orientation="horizontal" android:id="@id/total_holder" android:background="@color/grey_lighter" android:padding="@dimen/spacing_xl" android:focusable="false" android:clickable="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:baselineAligned="false" android:layout_alignParentBottom="true">
+        <LinearLayout android:orientation="vertical" android:id="@id/price_holder" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+            <TextView android:textSize="@dimen/textsize_xs" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/total" android:textAllCaps="true" />
+            <TextView android:textSize="@dimen/textsize_l" android:textStyle="bold" android:gravity="end" android:id="@id/textViewCheckOutPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="9995 USD" />
+            <TextView android:textSize="@dimen/textsize_xxs" android:textColor="@color/dim_gray" android:gravity="end" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tax_notice" />
+        </LinearLayout>
+        <Button android:textColor="#ffffffff" android:id="@id/btnFinish" android:background="@color/myAccentColor" android:paddingLeft="@dimen/spacing_l" android:paddingRight="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:foreground="?android:selectableItemBackground" android:text="@string/checkout" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView android:id="@id/recycleViewCheckOut" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/total_holder" />
+    <View android:background="@color/gray" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_above="@id/total_holder" />
+    <RelativeLayout android:id="@id/empty_view" android:background="@color/white" android:padding="@dimen/default_padding" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_alignParentStart="true">
+        <TextView android:textAppearance="@style/TextAppearance.AppCompat.Display4" android:textSize="@dimen/textsize_xxl" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cart_empty_title" android:layout_above="@id/cart_empty_subtitle" android:layout_centerHorizontal="true" />
+        <TextView android:textColor="@color/dark_gray" android:gravity="center" android:id="@id/cart_empty_subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_m" android:text="@string/cart_empty_subtitle" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+    </RelativeLayout>
+    <include android:id="@id/loading_view" android:visibility="gone" layout="@layout/fragment_wc_loading" />
+</RelativeLayout>

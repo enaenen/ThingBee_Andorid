@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen android:key="preferenceScreen"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settings_general" android:key="general" android:summary="@string/settings_general_summary">
+        <CheckBoxPreference android:title="@string/settings_showmenu" android:key="menuOpenOnStart" android:summary="@string/settings_showmenu_summary" android:defaultValue="false" />
+        <ListPreference android:entries="@array/fontentries" android:title="@string/settings_fontsize" android:key="fontSize" android:summary="@string/settings_fontsize_summary" android:defaultValue="16" android:entryValues="@array/fontvalues" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_other" android:key="other" android:summary="@string/settings_other_summary">
+        <Preference android:title="@string/settings_aboutus" android:key="about" android:summary="@string/settings_aboutus_summary" />
+        <Preference android:title="@string/settings_licenses" android:key="licenses" android:summary="@string/settings_licenses_summary" />
+        <Preference android:title="@string/settings_rate" android:key="rate" android:summary="@string/settings_rate_summary" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_billing" android:key="billing" android:summary="@string/settings_billing_summary">
+        <Preference android:title="@string/settings_purchase" android:key="purchase" android:summary="@string/settings_purchase_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>

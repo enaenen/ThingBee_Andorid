@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="av_colors">
+        <item>@color/av_color4</item>
+        <item>@color/av_color3</item>
+        <item>@color/av_color2</item>
+        <item>@color/av_color1</item>
+    </array>
+    <string-array name="fontentries">
+        <item>@string/settings_fontsize_xl</item>
+        <item>@string/settings_fontsize_l</item>
+        <item>@string/settings_fontsize_m</item>
+        <item>@string/settings_fontsize_s</item>
+        <item>@string/settings_fontsize_xs</item>
+    </string-array>
+    <string-array name="fontvalues">
+        <item>25</item>
+        <item>20</item>
+        <item>16</item>
+        <item>12</item>
+        <item>7</item>
+    </string-array>
+    <array name="radio_colors">
+        <item>#ff016fb1</item>
+        <item>#ff005aa1</item>
+        <item>#ff014b86</item>
+        <item>#ff003d6e</item>
+    </array>
+</resources>

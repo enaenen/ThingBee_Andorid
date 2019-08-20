@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:ads="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/coolblue" android:background="@color/myPrimaryColor" android:layout_width="fill_parent" android:layout_height="400.0dip" />
+    <com.sherdle.universal.util.layout.TrackingScrollView android:id="@id/scroller" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true" android:layout_above="@id/adView">
+        <LinearLayout android:orientation="vertical" android:paddingLeft="@dimen/detail_margin" android:paddingTop="@dimen/detail_margin" android:paddingRight="@dimen/detail_margin" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <ViewStub android:id="@id/layout_stub" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </LinearLayout>
+    </com.sherdle.universal.util.layout.TrackingScrollView>
+    <View android:background="@drawable/toolbar_gradient" android:layout_width="fill_parent" android:layout_height="?actionBarSize" />
+    <include android:id="@id/toolbar_actionbar" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/toolbar_default" />
+    <com.google.android.gms.ads.AdView android:id="@id/adView" android:background="@color/btnGray" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" ads:adSize="SMART_BANNER" ads:adUnitId="@string/admob_banner_id" />
+</RelativeLayout>

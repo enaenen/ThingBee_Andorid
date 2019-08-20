@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:universal="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_play_white" android:id="@id/play" android:title="@string/play_all" universal:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_action_refresh" android:id="@id/refresh" android:title="@string/refresh" universal:showAsAction="ifRoom" />
+</menu>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow android:layout_marginTop="@dimen/spacing_s" android:layout_marginBottom="@dimen/spacing_s"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textStyle="bold" android:textColor="@color/dim_gray" android:id="@id/key" android:layout_marginRight="28.0dip" />
+    <TextView android:layout_gravity="fill" android:id="@id/value" android:layout_height="wrap_content" />
+</TableRow>

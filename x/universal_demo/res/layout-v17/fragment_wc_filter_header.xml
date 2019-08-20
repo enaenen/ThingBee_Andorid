@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button android:textSize="@dimen/textsize_s" android:textColor="@color/dim_gray" android:id="@id/filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/filter" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:layout_alignParentEnd="true" style="@style/Widget.AppCompat.Button.Borderless" />
+    <ImageButton android:id="@id/compact" android:background="?selectableItemBackground" android:padding="@dimen/spacing_l" android:layout_width="24.0dip" android:layout_height="24.0dip" android:src="@drawable/ic_action_grid_view" android:tint="@color/dim_gray" android:layout_toRightOf="@id/normal" android:layout_centerVertical="true" android:layout_toEndOf="@id/normal" />
+    <ImageButton android:id="@id/normal" android:background="?selectableItemBackground" android:padding="@dimen/spacing_l" android:layout_width="wrap_content" android:layout_height="24.0dip" android:src="@drawable/ic_action_outline_view" android:tint="@color/dim_gray" android:layout_centerVertical="true" />
+</RelativeLayout>

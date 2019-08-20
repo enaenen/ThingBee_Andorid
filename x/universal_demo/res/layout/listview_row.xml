@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:padding="@dimen/spacing_xl" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?android:selectableItemBackground">
+        <com.sherdle.universal.util.layout.RoundedImageView android:id="@id/thumbImage" android:background="@drawable/rounded_placeholder" android:layout_width="fill_parent" android:layout_height="150.0dip" android:layout_marginBottom="@dimen/spacing_l" android:scaleType="centerCrop" />
+        <TextView android:textSize="@dimen/textsize_m" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/empty_textview" android:color="@color/grey_darker" android:fontFamily="sans-serif-medium" style="@style/listTitleStyle" />
+        <TextView android:textSize="@dimen/textsize_xs" android:textColor="@color/grey_dark" android:id="@id/date" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_m" android:text="@string/empty_textview" android:layout_below="@id/title" />
+    </LinearLayout>
+    <View android:background="@color/grey_lighter" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginLeft="@dimen/spacing_l" android:layout_marginRight="@dimen/spacing_l" />
+</LinearLayout>

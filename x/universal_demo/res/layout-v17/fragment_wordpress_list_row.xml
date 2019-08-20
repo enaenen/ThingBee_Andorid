@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:padding="@dimen/spacing_xl" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?android:selectableItemBackground">
+        <RelativeLayout android:gravity="center" android:orientation="vertical" android:paddingRight="@dimen/spacing_l" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@id/thumbImage" android:layout_centerVertical="true" android:paddingEnd="@dimen/spacing_l" android:layout_toStartOf="@id/thumbImage">
+            <TextView android:textSize="@dimen/textsize_m" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/empty_textview" android:color="@color/grey_darker" android:fontFamily="sans-serif-medium" style="@style/listTitleStyle" />
+            <TextView android:textSize="@dimen/textsize_xs" android:textColor="@color/grey_dark" android:id="@id/date" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_m" android:text="@string/empty_textview" android:layout_below="@id/title" />
+        </RelativeLayout>
+        <com.sherdle.universal.util.layout.RoundedImageView android:id="@id/thumbImage" android:background="@drawable/rounded_placeholder" android:layout_width="@dimen/thumbnail_size" android:layout_height="@dimen/thumbnail_size" android:scaleType="centerCrop" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <View android:background="@color/grey_lighter" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginLeft="@dimen/spacing_l" android:layout_marginRight="@dimen/spacing_l" />
+</LinearLayout>

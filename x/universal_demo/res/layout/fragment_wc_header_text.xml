@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/textsize_xxl" android:id="@id/text" android:paddingTop="@dimen/spacing_l" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_m" android:text="@string/no_results" android:fontFamily="sans-serif-medium" />
+</LinearLayout>

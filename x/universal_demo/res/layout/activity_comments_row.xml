@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:id="@id/lineView" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+    <RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="20.0dip">
+        <ImageView android:id="@id/ivProfilePhoto" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" />
+        <TextView android:textSize="@dimen/textsize_s" android:textColor="#ff41739c" android:gravity="center|left" android:id="@id/tvUsername" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="5.0dip" android:maxLines="1" android:layout_toRightOf="@id/ivProfilePhoto" android:layout_alignTop="@id/ivProfilePhoto" android:layout_alignParentTop="true" />
+        <TextView android:textSize="@dimen/textsize_s" android:gravity="center|left" android:id="@id/tvComment" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:layout_toRightOf="@id/ivProfilePhoto" android:layout_below="@id/tvUsername" />
+    </RelativeLayout>
+</LinearLayout>

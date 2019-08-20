@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center" android:orientation="vertical" android:paddingBottom="@dimen/spacing_xxs" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/imageViewHighlight" android:background="@color/light_gray" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/placeholder" android:scaleType="centerCrop" android:adjustViewBounds="true" android:maxHeight="@dimen/highlight_height" />
+    <View android:background="@color/black_more_translucent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:foreground="?android:selectableItemBackground" android:layout_alignTop="@id/imageViewHighlight" android:layout_alignBottom="@id/imageViewHighlight" />
+    <TextView android:textSize="@dimen/textsize_m" android:textColor="@color/white" android:id="@id/textViewHighlight" android:paddingLeft="@dimen/spacing_xl" android:paddingRight="@dimen/spacing_xl" android:paddingBottom="@dimen/spacing_xs" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/app_name" android:layout_above="@id/textViewDate" android:fontFamily="bold" style="@style/listTitleStyle" />
+    <TextView android:textSize="@dimen/textsize_xs" android:textColor="@color/extra_light_gray" android:id="@id/textViewDate" android:paddingLeft="@dimen/spacing_xl" android:paddingRight="@dimen/spacing_xl" android:paddingBottom="@dimen/spacing_xxl" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="27/04/2016, 21:09" android:layout_alignBottom="@id/imageViewHighlight" />
+</RelativeLayout>

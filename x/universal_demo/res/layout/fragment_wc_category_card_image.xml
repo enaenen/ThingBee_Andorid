@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="@dimen/woocommerce_padding" android:baselineAligned="false" app:cardCornerRadius="6.0dip" app:cardPreventCornerOverlap="true">
+        <RelativeLayout android:gravity="center" android:orientation="vertical" android:layout_width="@dimen/woocommerce_category_width" android:layout_height="wrap_content">
+            <ImageView android:id="@id/image" android:background="@color/light_gray" android:layout_width="fill_parent" android:layout_height="@dimen/woocommerce_category_height" android:src="@drawable/placeholder" android:scaleType="centerCrop" android:adjustViewBounds="true" />
+            <View android:background="@color/black_almost_translucent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignTop="@id/image" android:layout_alignBottom="@id/image" />
+            <TextView android:textSize="@dimen/textsize_m" android:textStyle="bold" android:textColor="@color/white" android:id="@id/title" android:padding="@dimen/spacing_xl" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name" android:layout_centerHorizontal="true" android:layout_centerVertical="true" style="@style/listTitleStyle" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

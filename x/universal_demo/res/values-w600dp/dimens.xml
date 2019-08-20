@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_detail_horizontal_margin">64.0dip</dimen>
+    <dimen name="activity_horizontal_margin">64.0dip</dimen>
+    <dimen name="detail_margin">96.0dip</dimen>
+    <dimen name="drawer_width">320.0dip</dimen>
+    <dimen name="image_height_wordpress">300.0dip</dimen>
+    <dimen name="image_height_youtube">300.0dip</dimen>
+    <dimen name="preference_fragment_padding_side">64.0dip</dimen>
+</resources>

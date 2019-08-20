@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:background="@drawable/chip_background" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/spacing_xs" android:layout_marginTop="@dimen/spacing_xs" android:layout_marginRight="@dimen/spacing_xs" android:layout_marginBottom="@dimen/spacing_xs">
+        <TextView android:textSize="@dimen/textsize_s" android:textColor="@color/white" android:id="@id/category_chip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/spacing_m" android:text="@string/no_results" android:layout_marginEnd="@dimen/spacing_m" />
+        <TextView android:textSize="@dimen/textsize_xs" android:textColor="@color/white" android:id="@id/category_chip_number" android:background="@drawable/chip_background_dark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2" />
+    </LinearLayout>
+</FrameLayout>

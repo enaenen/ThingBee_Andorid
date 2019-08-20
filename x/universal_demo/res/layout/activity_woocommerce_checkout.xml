@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/activity_check_out" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:id="@id/toolbar_actionbar" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/toolbar_default" />
+    <android.support.v4.widget.SwipeRefreshLayout android:id="@id/swipeRefreshLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/toolbar_actionbar">
+        <WebView android:id="@id/webView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <RelativeLayout android:id="@id/finished_view" android:background="@color/white" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textAppearance="@style/TextAppearance.AppCompat.Display4" android:textSize="@dimen/textsize_xxl" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/order_success" android:layout_above="@id/cart_empty_subtitle" android:layout_centerHorizontal="true" />
+        <TextView android:textColor="@color/dark_gray" android:gravity="center" android:id="@id/cart_empty_subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_m" android:text="@string/order_success_subtitle" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+        <Button android:textColor="@color/white" android:id="@id/button_ok" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/ok" android:layout_below="@id/cart_empty_subtitle" android:layout_centerHorizontal="true" style="@style/Widget.AppCompat.Button.Colored" />
+    </RelativeLayout>
+    <include android:visibility="visible" layout="@layout/fragment_wc_loading" />
+</RelativeLayout>

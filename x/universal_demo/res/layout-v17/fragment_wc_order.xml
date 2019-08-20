@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/woocommerce_padding" android:foreground="?android:selectableItemBackground"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/textsize_xs" android:textColor="@color/white" android:id="@id/orderStatus" android:background="@color/light_gray" android:padding="@dimen/spacing_xs" android:paddingLeft="@dimen/spacing_l" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_xs" android:text="Shipped" android:paddingStart="@dimen/spacing_l" />
+        <TextView android:textSize="@dimen/textsize_s" android:textColor="@color/myPrimaryColor" android:layout_gravity="end" android:id="@id/orderDate" android:paddingTop="@dimen/spacing_m" android:paddingRight="@dimen/spacing_xl" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/empty_textview" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:paddingEnd="@dimen/spacing_xl" android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <LinearLayout android:orientation="vertical" android:paddingLeft="@dimen/spacing_l" android:paddingTop="@dimen/spacing_s" android:paddingRight="@dimen/spacing_l" android:paddingBottom="@dimen/spacing_m" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/textsize_m" android:textColor="@color/grey_dark" android:id="@id/orderDescription" android:paddingBottom="@dimen/spacing_xxs" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/empty_textview" android:textDirection="locale" />
+        <TextView android:textSize="@dimen/textsize_l" android:textStyle="bold" android:textColor="@color/black" android:id="@id/orderTotal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="$12.33" android:layout_centerVertical="true" android:fontFamily="sans-serif" />
+    </LinearLayout>
+</LinearLayout>

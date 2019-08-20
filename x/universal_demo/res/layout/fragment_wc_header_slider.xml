@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/textsize_xxl" android:paddingTop="@dimen/spacing_l" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_m" android:text="@string/categories" android:fontFamily="sans-serif-medium" />
+    <HorizontalScrollView android:layout_gravity="center_horizontal" android:padding="@dimen/woocommerce_padding" android:scrollbars="none" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/slider_content" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </HorizontalScrollView>
+</LinearLayout>

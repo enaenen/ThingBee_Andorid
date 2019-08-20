@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="@dimen/woocommerce_padding" android:foreground="?android:selectableItemBackground"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:id="@id/productImage" android:background="@color/grey_light" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/placeholder" android:scaleType="centerCrop" android:adjustViewBounds="true" android:maxHeight="400.0dip" />
+        <ImageView android:textColor="#ffffffff" android:id="@id/overflow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:layout_marginRight="14.0dip" android:foreground="?android:selectableItemBackground" android:src="@drawable/ic_shopping_cart" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+        <TextView android:textSize="@dimen/textsize_xs" android:textColor="@color/white" android:id="@id/sale_label" android:background="#ffd32f2f" android:padding="@dimen/spacing_xs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_xs" android:text="@string/sale" />
+    </RelativeLayout>
+    <LinearLayout android:orientation="vertical" android:paddingLeft="@dimen/spacing_l" android:paddingTop="@dimen/spacing_m" android:paddingRight="@dimen/spacing_l" android:paddingBottom="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/textsize_m" android:textColor="@color/grey_dark" android:id="@id/productName" android:paddingBottom="@dimen/spacing_xxs" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/empty_textview" android:fontFamily="sans-serif" />
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="@dimen/textsize_s" android:id="@id/productPriceRegular" android:paddingRight="5.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$20" android:layout_alignBottom="@id/productPrice" android:layout_centerVertical="true" android:fontFamily="sans-serif" />
+            <TextView android:textSize="@dimen/textsize_s" android:textStyle="bold" android:textColor="@color/black" android:id="@id/productPrice" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="$12.33" android:layout_toRightOf="@id/productPriceRegular" android:layout_centerVertical="true" android:fontFamily="sans-serif" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
