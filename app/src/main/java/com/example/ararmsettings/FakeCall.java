@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 public class FakeCall extends AppCompatActivity {
 
+    public static final String SHARED_PREFS = "contracts";
+    public static final String PHONENUMBER = "phoneNumber";
+    public static final String DEFAULT_NUMBER = "112";
 
     private final int COUNT_DOWN_TIME = 1;
     private final int REQUEST_CALL_PHONE = 2;
@@ -115,7 +118,9 @@ public class FakeCall extends AppCompatActivity {
 
                 break;
             case R.id.link_call:
-                tel = "01051411031";
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                tel = sharedPreferences.getString(PHONENUMBER,DEFAULT_NUMBER);
+                //tel = "01051411031";
                 tel ="tel: "+tel;
                 checkPermission(R.id.link_call);
 
@@ -185,8 +190,6 @@ public class FakeCall extends AppCompatActivity {
         switch(requestCode){
             case REQUEST_CALL_PHONE:
                 if(grantResults.length> 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
-
                     try{
                         startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(tel)));
                     }catch(SecurityException e){
