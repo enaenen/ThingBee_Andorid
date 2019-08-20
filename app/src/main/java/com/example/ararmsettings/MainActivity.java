@@ -1,6 +1,7 @@
 package com.example.ararmsettings;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     String value;
 
-    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String SHARED_PREFS = "contracts";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
         settings = findViewById(R.id.buttonSettings);
         submit = findViewById(R.id.buttonSubmit);
 
-        preferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+       // preferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        preferences = PreferenceManager.getDefaultSharedPreferences(com.example.ararmsettings.SettingsActivity.class);
         editor = preferences.edit();
-        value = preferences.getString("TEXT","Data Not Found");
+        value = preferences.getString("PHONENUMBER","Data Not Found");
+
     }
     public void onClick(View view) {
         switch(view.getId()){
@@ -42,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
             case R.id.buttonSubmit:
-                //SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-                //System.out.println(preferences.getString("sharedPrefs","none"));
-                value = preferences.getString("TEXT","Data Not Found");
+                //value = preferences.getString("PHONENUMBER","Data Not Found");
+                value=preferences.getString()
                 Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
                 textView.setText(value);
                 break;

@@ -47,7 +47,6 @@
             app:title="@string/path"
             app:summary="@string/path_summary"
             />
-
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/emergency">
@@ -63,7 +62,6 @@
             app:key="fakecall"
             app:title="@string/fakecall_cooltime"
             app:useSimpleSummaryProvider="true" />
-
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

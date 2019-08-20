@@ -7,19 +7,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddContract extends AppCompatActivity {
     private TextView textView;
-    private Button confirmBtn;
-    private Button cancleBtn;
     private String text;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String TEXT = "text";
-    public static final String CONFIRM = "confirm";
+
+    public static final String SHARED_PREFS = "contracts";
+    public static final String PHONENUMBER = "phoneNumber";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +27,12 @@ public class AddContract extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("연락처 등록");
 
+        //SharedPreference 초기화(여기에 전화번호 값을 저장함)
+        //SHARED_PREFS
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         textView = findViewById(R.id.phoneNumber);
-        confirmBtn = findViewById(R.id.confirmBtn);
-        cancleBtn = findViewById(R.id.cancleBtn);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -60,23 +62,18 @@ public class AddContract extends AppCompatActivity {
     }
 
     public void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(TEXT, textView.getText().toString());
+        editor.putString(PHONENUMBER, textView.getText().toString());
         editor.apply();
         Toast.makeText(this, "Data Saved", Toast.LENGTH_LONG).show();
     }
 
     public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("TEXT", textView.getText().toString());
+        editor = sharedPreferences.edit();
+        editor.putString("PHONENUMBER", textView.getText().toString());
         editor.commit();
-        text = sharedPreferences.getString(TEXT, "");
     }
 
     public void updateViews() {
-        textView.setText(text);
+     //   textView.setText(text);
     }
 }
