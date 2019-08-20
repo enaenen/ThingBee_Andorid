@@ -30,4 +30,7 @@
     <string name="fakecall_default">2</string>
     <string name="fakecall_summary">페이크 콜 대기 시간 설정</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

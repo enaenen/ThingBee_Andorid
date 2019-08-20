@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".menu_topbar">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="40dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="100"
+            android:background="@color/white">
+
+
+            <ImageButton
+                android:id="@+id/menu_newsbtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:background="@android:color/transparent"
+                android:src="@drawable/menu_article_img"
+                >
+            </ImageButton>
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:background="@android:color/transparent"
+                android:src="@drawable/menu_map_img">
+            </ImageButton>
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:background="@android:color/transparent"
+                android:src="@drawable/menu_statics_img">
+            </ImageButton>
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:background="@android:color/transparent"
+                android:src="@drawable/menu_option_img">
+            </ImageButton>
+
+
+
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+</FrameLayout>
