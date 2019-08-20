@@ -12,7 +12,8 @@
         android:usesCleartextTraffic="true">
         <activity android:name="com.example.thingbee_android.FakeCall"
             android:theme="@style/AppNoTheme"></activity>
-        <activity android:name="com.example.thingbee_android.AddContract" />
+        <activity android:name="com.example.thingbee_android.AddContract"
+            android:theme="@style/AppTheme"/>
         <activity
             android:theme="@style/AppTheme"
             android:name="com.example.thingbee_android.SettingsActivity"
