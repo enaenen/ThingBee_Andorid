@@ -1,4 +1,4 @@
-package com.example.ararmsettings;
+package com.example.thingbee_android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

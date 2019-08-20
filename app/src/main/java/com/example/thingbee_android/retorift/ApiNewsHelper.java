@@ -1,4 +1,4 @@
-package com.example.ararmsettings.retorift;
+package com.example.thingbee_android.retorift;
 
 import retrofit2.Retrofit;
 

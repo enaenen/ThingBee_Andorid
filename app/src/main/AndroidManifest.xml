@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ararmsettings">
+    package="com.example.thingbee_android">
 
     <application
         android:allowBackup="true"
@@ -10,15 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppNoTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FakeCall"
+        <activity android:name="com.example.thingbee_android.FakeCall"
             android:theme="@style/AppNoTheme"></activity>
-        <activity android:name=".AddContract" />
+        <activity android:name="com.example.thingbee_android.AddContract" />
         <activity
             android:theme="@style/AppTheme"
-            android:name=".SettingsActivity"
+            android:name="com.example.thingbee_android.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".NewsActivity"></activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="com.example.thingbee_android.NewsActivity"></activity>
+        <activity android:name="com.example.thingbee_android.MainActivity"
             android:theme="@style/AppNoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.ararmsettings;
+package com.example.thingbee_android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,6 @@ public class AddContract extends AppCompatActivity {
     private TextView textView;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
 
     public static final String SHARED_PREFS = "contracts";
     public static final String PHONENUMBER = "phoneNumber";
