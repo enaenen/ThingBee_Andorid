@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".menu_topbar">
+    tools:context=".MenuTopbar">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.appcompat.widget.Toolbar
@@ -24,7 +24,16 @@
 
 
             <ImageButton
-                android:id="@+id/menu_newsbtn"
+                android:id="@+id/menu_map_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:background="@android:color/transparent"
+                android:src="@drawable/menu_map_img"
+                >
+            </ImageButton>
+            <ImageButton
+                android:id="@+id/menu_news_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="25"
@@ -33,13 +42,7 @@
                 >
             </ImageButton>
             <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="25"
-                android:background="@android:color/transparent"
-                android:src="@drawable/menu_map_img">
-            </ImageButton>
-            <ImageButton
+                android:id="@+id/menu_statics_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="25"
@@ -47,6 +50,7 @@
                 android:src="@drawable/menu_statics_img">
             </ImageButton>
             <ImageButton
+                android:id="@+id/menu_settings_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="25"
