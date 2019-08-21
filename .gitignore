@@ -161,6 +161,7 @@ obj/
 .idea/shelf/
 .idea/.name
 .idea/compiler.xml
+.idea/codeStyles/
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
 .idea/misc.xml
