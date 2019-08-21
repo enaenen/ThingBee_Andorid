@@ -1,11 +1,13 @@
 package com.example.thingbee_android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +16,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link menu_topbar.OnFragmentInteractionListener} interface
+ * {@link MenuTopbar.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link menu_topbar#newInstance} factory method to
+ * Use the {@link MenuTopbar#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class menu_topbar extends Fragment {
+public class MenuTopbar extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,9 +33,14 @@ public class menu_topbar extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public menu_topbar() {
+    public MenuTopbar() {
         // Required empty public constructor
     }
+
+    public void onClickMenuBtn1(View view){
+        Log.d("test","탑바");
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -41,11 +48,11 @@ public class menu_topbar extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment menu_topbar.
+     * @return A new instance of fragment MenuTopbar.
      */
     // TODO: Rename and change types and number of parameters
-    public static menu_topbar newInstance(String param1, String param2) {
-        menu_topbar fragment = new menu_topbar();
+    public static MenuTopbar newInstance(String param1, String param2) {
+        MenuTopbar fragment = new MenuTopbar();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,11 +69,49 @@ public class menu_topbar extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    @Override   //프래그먼트에 레이아웃 제공. /팽창시키고자 하는 레이아웃의 리소스/
+    // 팽창된 레이아웃의 상위가 될 ViewGroup/ 팽창된 라이아웃이 팽창 중에 ViewGroup에 첨부되야하는지
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu_topbar, container, false);
+        View view=inflater.inflate(R.layout.fragment_menu_topbar, container, false);
+
+        //menu 버튼 추가
+        view.findViewById(R.id.menu_map_btn)
+                .setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        getActivity()
+                                .startActivity(new Intent(getActivity(), NewsActivity.class));
+                    }
+                });
+        view.findViewById(R.id.menu_news_btn)
+                .setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        getActivity()
+                                .startActivity(new Intent(getActivity(), NewsActivity.class));
+                    }
+                });
+        view.findViewById(R.id.menu_statics_btn)
+                .setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        getActivity()
+                                .startActivity(new Intent(getActivity(), StatsActivity.class));
+                    }
+                });
+        view.findViewById(R.id.menu_settings_btn)
+                .setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        getActivity()
+                                .startActivity(new Intent(getActivity(),SettingsActivity.class));
+                    }
+                });
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

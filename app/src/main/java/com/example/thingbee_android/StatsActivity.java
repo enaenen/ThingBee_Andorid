@@ -1,9 +1,11 @@
 package com.example.thingbee_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +14,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class StatsActivity extends AppCompatActivity {
+public class StatsActivity extends AppCompatActivity implements MenuTopbar.OnFragmentInteractionListener {
     WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,13 @@ public class StatsActivity extends AppCompatActivity {
             if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE))
             { WebView.setWebContentsDebuggingEnabled(true); }
         }
+
+
+        //탑 뷰 프래그먼트
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        MenuTopbar topbar= new MenuTopbar();
+        fragmentTransaction.add(R.id.topbar_container, topbar);
+        fragmentTransaction.commit();
     }
     class MyWebClient extends WebViewClient {
         @Override
@@ -58,5 +67,10 @@ public class StatsActivity extends AppCompatActivity {
             cookieSyncMngr.stopSync();
             cookieSyncMngr.sync();
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

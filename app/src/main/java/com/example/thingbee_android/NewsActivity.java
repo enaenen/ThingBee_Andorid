@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +22,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NewsActivity extends AppCompatActivity implements menu_topbar.OnFragmentInteractionListener {
+public class NewsActivity extends AppCompatActivity implements MenuTopbar.OnFragmentInteractionListener {
     private Retrofit retrofit;
     private ApiNewsService newsService;
     private RecyclerView mRecyclerView;
@@ -52,6 +53,13 @@ public class NewsActivity extends AppCompatActivity implements menu_topbar.OnFra
         Log.d("test", myArticles.toString());
         mAdapter = new MyAdapter(myArticles);   //어댑터 생성, 데이터 부여
         mRecyclerView.setAdapter(mAdapter);     //어댑터 등록
+
+
+        //탑 뷰 프래그먼트
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        MenuTopbar topbar= new MenuTopbar();
+        fragmentTransaction.add(R.id.topbar_container, topbar);
+        fragmentTransaction.commit();
 
 
         //스크롤이벤트
