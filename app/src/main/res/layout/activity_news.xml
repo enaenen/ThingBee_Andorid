@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewsActivity">
+    tools:context=".NewsActivity"
+    android:id="@+id/activity_news">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_news" />
+    <include layout="@layout/content_news" />
 
     <LinearLayout
         android:id="@+id/searchBar"
@@ -36,7 +35,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/search"
-        app:layout_anchor="@+id/include"
         app:backgroundTint="#FF2F528F"
         android:onClick="onClick"
         app:layout_anchorGravity="end|bottom" />
