@@ -3,14 +3,23 @@ package com.example.thingbee_android;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.thingbee_android.retorift.ApiNewsService;
 import com.example.thingbee_android.retorift.ArticleInfoVO;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +37,12 @@ public class NewsActivity extends AppCompatActivity implements menu_topbar.OnFra
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ArticleInfoVO> myArticles;
+    private FloatingActionButton searchBtn;
+    private EditText searchBox;
+    private LinearLayout searchBar;
+    private Boolean flag;
+    private Animation top;
+    private Animation bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,17 @@ public class NewsActivity extends AppCompatActivity implements menu_topbar.OnFra
         mLayoutManager= new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         myArticles = new ArrayList<>();
+
+//        findViewById(R.id.fragment).bringToFront();
+
+        searchBtn = findViewById(R.id.searchBtn);
+        searchBar = findViewById(R.id.searchBar);
+        searchBox  = findViewById(R.id.searchBox);
+
+        flag = true;
+
+        top = AnimationUtils.loadAnimation(this,R.anim.animation_top);
+        bottom = AnimationUtils.loadAnimation(this,R.anim.animation_bottom);
 
         //http 방식 통신 라이브러리
         retrofit= new Retrofit.Builder()
@@ -113,4 +139,28 @@ public class NewsActivity extends AppCompatActivity implements menu_topbar.OnFra
             }
         });
     }
+
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.searchBtn :
+                if(flag){
+                    flag = false;
+                }else {
+                    flag = true;
+                }
+                switchSearchBar();
+                break;
+        }
+    }
+
+    private void switchSearchBar(){
+        if(flag){
+            searchBar.setVisibility(View.VISIBLE);
+            searchBar.startAnimation(top);
+        }else{
+            searchBar.startAnimation(bottom);
+            searchBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
 }
