@@ -1,19 +1,23 @@
 package com.example.thingbee_android;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceManager;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MenuTopbar.OnFragmentInteractionListener {
     private TextView textView;
     private Button settings;
     private Button submit;
@@ -36,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(tb) ;
 
         textView = findViewById(R.id.textView);
-        settings = findViewById(R.id.buttonSettings);
         submit = findViewById(R.id.buttonSubmit);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -53,7 +56,13 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("path 버튼  : " + pathbtn);
 
 
+        //탑 뷰 프래그먼트
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        MenuTopbar topbar= new MenuTopbar();
+        fragmentTransaction.add(R.id.topbar_container, topbar);
+        fragmentTransaction.commit();
     }
+
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.buttonSettings:
@@ -95,4 +104,12 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item) ;
         }
     }
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
 }
