@@ -22,7 +22,7 @@ import com.example.thingbee_android.vo.PathInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailPathFragment extends Fragment implements MapMain.OnBackKeyPressedListener {
+public class DetailPathFragment extends Fragment {//implements MapMain.OnBackKeyPressedListener {
 
     private TextView mode;
     private TextView time;
@@ -95,13 +95,13 @@ public class DetailPathFragment extends Fragment implements MapMain.OnBackKeyPre
 
         pathAdapter.notifyDataSetChanged();
 
-        ((MapMain) getActivity()).pushOnBackKeyPressedListener(this);
+       // ((MapMain) getActivity()).pushOnBackKeyPressedListener(this);
     }
 
-    @Override
-    public void onBack() {
-        getFragmentManager().popBackStack();
-    }
+//    @Override
+//    public void onBack() {
+//        getFragmentManager().popBackStack();
+//    }
 
     @Override
     public void onStart() {

@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.thingbee_android.MapMain;
 import com.example.thingbee_android.R;
 import com.example.thingbee_android.vo.PathInfo;
 
@@ -43,7 +42,7 @@ import static com.example.thingbee_android.PathAdapter.TURN_RIGHT_2;
 import static com.example.thingbee_android.PathAdapter.TURN_RIGHT_4;
 import static com.example.thingbee_android.PathAdapter.UNDERGROUND;
 
-public class PathIndexFragment extends Fragment implements MapMain.OnBackKeyPressedListener {
+public class PathIndexFragment extends Fragment{// implements MapMain.OnBackKeyPressedListener {
 
     ImageView type;
     TextView index;
@@ -139,7 +138,7 @@ public class PathIndexFragment extends Fragment implements MapMain.OnBackKeyPres
         description.setText(pathInfo.getDescription());
     }
 
-    @Override
+  //  @Override
     public void onBack() {
         getFragmentManager().popBackStack();
     }

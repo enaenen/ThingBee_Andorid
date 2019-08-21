@@ -31,16 +31,19 @@
             app:key="btn_maps"
             app:title="@string/maps"
             app:summary="@string/maps_summary"
+            app:defaultValue="true"
             />
         <SwitchPreferenceCompat
             app:key="btn_news"
             app:title="@string/news"
             app:summary="@string/news_summary"
+            app:defaultValue="true"
             />
         <SwitchPreferenceCompat
             app:key="btn_stats"
             app:title="@string/stats"
             app:summary="@string/stats_summary"
+            app:defaultValue="true"
             />
         <SwitchPreferenceCompat
             app:key="btn_path"
@@ -53,7 +56,8 @@
         <SwitchPreferenceCompat
             app:key="emergency"
             app:title="@string/emergency_active"
-            app:summary="전원 버튼 3번 누르기"
+            app:summary="볼륨 아래 버튼 3번 누르기"
+            app:defaultValue="true"
             />
         <ListPreference
             app:defaultValue="@string/fakecall_default"
