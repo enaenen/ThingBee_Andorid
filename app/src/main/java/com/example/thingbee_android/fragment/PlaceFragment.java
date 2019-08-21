@@ -18,7 +18,7 @@ import com.example.thingbee_android.R;
 import com.example.thingbee_android.MapMain;
 import com.example.thingbee_android.vo.Place;
 
-public class PlaceFragment extends Fragment implements MapMain.OnBackKeyPressedListener {
+public class PlaceFragment extends Fragment {//implements MapMain.OnBackKeyPressedListener {
 
     TextView name;
     TextView address;
@@ -54,11 +54,11 @@ public class PlaceFragment extends Fragment implements MapMain.OnBackKeyPressedL
             address.setText(this.place.getFullAddrName());
             tel.setText(this.place.getTelNo());
 
-             ((MapMain)getActivity()).pushOnBackKeyPressedListener(this);
+            // ((MapMain)getActivity()).pushOnBackKeyPressedListener(this);
         }
     }
 
-   @Override
+//   @Override
     public void onBack() {
         getFragmentManager().popBackStack();
     }

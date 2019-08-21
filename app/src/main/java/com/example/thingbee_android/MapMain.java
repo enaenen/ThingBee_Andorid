@@ -59,7 +59,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import static android.view.View.VISIBLE;
 
@@ -70,7 +69,7 @@ public class MapMain extends AppCompatActivity implements TMapGpsManager.onLocat
     private FacilityAnimator animator ;
 
     // OnBackKeyPressedListener 인터페이스를 저장할 stack 만들기
-    public Stack<OnBackKeyPressedListener> mFragmentBackStack = new Stack<>();
+//    public Stack<OnBackKeyPressedListener> mFragmentBackStack = new Stack<>();
 
     private TMapView tMapView;
     private Bitmap bitmap;
@@ -225,7 +224,7 @@ public class MapMain extends AppCompatActivity implements TMapGpsManager.onLocat
         detailPathFragment = (DetailPathFragment) fm.findFragmentById(R.id.detailList);
         pathIndexFragment = (PathIndexFragment) fm.findFragmentById((R.id.pathItemFragment));
 
-        fm.beginTransaction().addToBackStack(null);
+       // fm.beginTransaction().addToBackStack(null);
 
         runOnUiThread(new Runnable() {
             @Override
@@ -1237,22 +1236,22 @@ public class MapMain extends AppCompatActivity implements TMapGpsManager.onLocat
         }
     }
 
-    public interface OnBackKeyPressedListener{
-        public void onBack();
-    }
+//    public interface OnBackKeyPressedListener{
+//        public void onBack();
+//    }
+//
+//    public void pushOnBackKeyPressedListener(OnBackKeyPressedListener listener){
+//        mFragmentBackStack.push(listener);
+//    }
 
-    public void pushOnBackKeyPressedListener(OnBackKeyPressedListener listener){
-        mFragmentBackStack.push(listener);
-    }
-
-    public void onBackPressed() {
-        if(mFragmentBackStack.isEmpty()){
-            mFragmentBackStack.pop().onBack();
-        }
-        else {
-            // 뒤로 가기 구현중
-        }
-    }
+//    public void onBackPressed() {
+//        if(mFragmentBackStack.isEmpty()){
+//            mFragmentBackStack.pop().onBack();
+//        }
+//        else {
+//            // 뒤로 가기 구현중
+//        }
+//    }
 
     //     경로 주변 시설물 표시 스레드
     private class AroundFacilityThread extends Thread {

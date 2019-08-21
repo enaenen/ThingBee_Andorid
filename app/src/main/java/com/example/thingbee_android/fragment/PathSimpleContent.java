@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.thingbee_android.R;
 import com.example.thingbee_android.MapMain;
 
-public class PathSimpleContent extends Fragment implements MapMain.OnBackKeyPressedListener {
+public class PathSimpleContent extends Fragment {//implements MapMain.OnBackKeyPressedListener {
 
     private TextView mode;    // 최단 경로, 안전 경로
     private TextView time;    // 소요 시간
@@ -65,7 +65,7 @@ public class PathSimpleContent extends Fragment implements MapMain.OnBackKeyPres
         mode.setText(path.getString("mode"));
 
 
-        ((MapMain)getActivity()).pushOnBackKeyPressedListener(this);
+       // ((MapMain)getActivity()).pushOnBackKeyPressedListener(this);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class PathSimpleContent extends Fragment implements MapMain.OnBackKeyPres
         super.onDetach();
     }
 
-    @Override
+    //@Override
     public void onBack() {
         getFragmentManager().popBackStack();
     }

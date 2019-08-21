@@ -1,8 +1,5 @@
 package com.example.thingbee_android;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
@@ -14,12 +11,16 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 public class StatsActivity extends AppCompatActivity implements MenuTopbar.OnFragmentInteractionListener {
     WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
+
         webView = findViewById(R.id.webView);
         webView.setWebViewClient(new MyWebClient());
         webView.getSettings().setJavaScriptEnabled(true);

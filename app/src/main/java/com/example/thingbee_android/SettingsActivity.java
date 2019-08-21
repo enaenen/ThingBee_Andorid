@@ -38,17 +38,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this /* Activity context */);
-        boolean sgut = sharedPreferences.getBoolean("btn_maps",false);
-        System.out.println(sgut);
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-       // getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-
-    }
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
