@@ -1,9 +1,5 @@
 package com.example.thingbee_android;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceManager;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textView;
@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.buttonStats:
                 startActivity(new Intent(this, StatsActivity.class));
+                break;
+            case R.id.buttonMaps:
+                startActivity(new Intent(this, MapMain.class));
                 break;
         }
     }
