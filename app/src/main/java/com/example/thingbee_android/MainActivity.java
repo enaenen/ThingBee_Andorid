@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements MenuTopbar.OnFrag
 
     public void onClick(View view) {
         switch(view.getId()){
+            case R.id.buttonSettings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
             case R.id.buttonSubmit:
                 value = sharedPreferences.getString(PHONENUMBER,"Data Not Found");
                 Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
@@ -72,6 +75,15 @@ public class MainActivity extends AppCompatActivity implements MenuTopbar.OnFrag
                 break;
             case R.id.buttonFakeCall:
                 startActivity(new Intent(this, FakeCall.class));
+                break;
+            case R.id.buttonNews:
+                startActivity(new Intent(this, NewsActivity.class));
+                break;
+            case R.id.buttonStats:
+                startActivity(new Intent(this, StatsActivity.class));
+                break;
+            case R.id.buttonMaps:
+                startActivity(new Intent(this, MapMain.class));
                 break;
         }
     }

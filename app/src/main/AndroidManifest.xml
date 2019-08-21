@@ -6,7 +6,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppNoTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".StatsActivity"></activity>
+        <activity android:name=".MapMain"
+            android:theme="@style/AppNoTheme"></activity>
+        <activity android:name=".StatsActivity" />
         <activity
             android:name=".FakeCall"
             android:theme="@style/AppNoTheme" />
@@ -28,6 +31,9 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme" />
         <activity android:name=".NewsActivity" />
+        <activity android:name=".SearchOneActivity" />
+
+        <activity android:name=".SearchPathActivity" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppNoTheme">
@@ -37,6 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
