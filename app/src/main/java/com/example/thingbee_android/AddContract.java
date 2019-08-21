@@ -1,14 +1,14 @@
 package com.example.thingbee_android;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddContract extends AppCompatActivity {
     private TextView textView;
@@ -50,8 +50,6 @@ public class AddContract extends AppCompatActivity {
         switch (view.getId()) {
             case (R.id.confirmBtn):
                 saveData();
-                //  loadData();
-                // updateViews();
                 super.onBackPressed();
                 break;
             case (R.id.cancleBtn):
@@ -68,14 +66,3 @@ public class AddContract extends AppCompatActivity {
         Toast.makeText(this, textView.getText(), Toast.LENGTH_LONG).show();
     }
 }
-
-//    public void loadData() {
-//        editor = sharedPreferences.edit();
-//        editor.putString(PHONENUMBER, textView.getText().toString());
-//        editor.commit();
-//    }
-//
-//    public void updateViews() {
-//        textView.setText(text);
-//    }
-//}
