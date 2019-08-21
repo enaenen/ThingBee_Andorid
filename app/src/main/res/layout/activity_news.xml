@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewsActivity"
-    android:orientation="vertical">
+    tools:context=".NewsActivity">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_news" />
 
     <LinearLayout
-        android:id="@+id/topbar_container"
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/searchBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#FFFFFFFF"
+            android:hint="키워드, 제목 검색"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/searchBtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/search"
+        app:layout_anchor="@+id/include"
+        app:backgroundTint="#FF2F528F"
+        android:onClick="onClick"
+        app:layout_anchorGravity="end|bottom" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/feed_bg"/>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
