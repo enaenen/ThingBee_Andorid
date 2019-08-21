@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.thingbee_android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.DIAL_PHONE" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,16 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppNoTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.thingbee_android.FakeCall"
-            android:theme="@style/AppNoTheme"></activity>
-        <activity android:name="com.example.thingbee_android.AddContract"
-            android:theme="@style/AppTheme"/>
+        <activity android:name=".StatsActivity"></activity>
         <activity
-            android:theme="@style/AppTheme"
-            android:name="com.example.thingbee_android.SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity android:name="com.example.thingbee_android.NewsActivity"></activity>
-        <activity android:name="com.example.thingbee_android.MainActivity"
+            android:name=".FakeCall"
+            android:theme="@style/AppNoTheme" />
+        <activity
+            android:name=".AddContract"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".NewsActivity" />
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppNoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,9 +38,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.DIAL_PHONE"/>
 
 </manifest>

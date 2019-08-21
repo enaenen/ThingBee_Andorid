@@ -70,10 +70,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonNews:
                 startActivity(new Intent(this, NewsActivity.class));
                 break;
+            case R.id.buttonStats:
+                startActivity(new Intent(this, StatsActivity.class));
+                break;
         }
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
