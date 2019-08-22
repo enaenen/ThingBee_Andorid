@@ -1,11 +1,5 @@
 package com.example.thingbee_android;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +15,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 public class FakeCall extends AppCompatActivity {
 
@@ -210,5 +210,11 @@ public class FakeCall extends AppCompatActivity {
                 Toast.makeText(this, e.getMessage(),Toast.LENGTH_LONG).show();
             }
         }
+    }
+    @Override
+    public void onBackPressed() {
+        this.finish();
+        super.onBackPressed();
+        //뒤로가기 버튼 못누르게 함
     }
 }

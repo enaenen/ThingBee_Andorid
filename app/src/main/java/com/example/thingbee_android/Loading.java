@@ -17,10 +17,9 @@ public class Loading extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
 
         Handler hd = new Handler();
-        hd.postDelayed(new splashhandler(), 3000); // 1초 후에 hd handler 실행  3000ms = 3초
+        hd.postDelayed(new splashhandler(), 5000); // 1초 후에 hd handler 실행  3000ms = 3초
         bg = findViewById(R.id.imageView);
-        //String gifURL = "https://media.giphy.com/media/hPPx8yk3Bmqys/source.gif";
-        String gifURL = "https://data.whicdn.com/images/328989002/original.gif";
+        String gifURL = "https://media.giphy.com/media/IeF9YxO4v1ddvrQXAX/giphy.gif";
       //  https://weheartit.com/entry/328989002
         //glide로 GIF 불러오기
         Glide.with(this).load(gifURL).into(bg);
@@ -35,7 +34,7 @@ public class Loading extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //초반 플래시 화면에서 넘어갈때 뒤로가기 버튼 못누르게 함
+        //뒤로가기 버튼 못누르게 함
     }
 
 }
