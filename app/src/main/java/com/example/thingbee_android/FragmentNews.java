@@ -77,6 +77,7 @@ public class FragmentNews extends Fragment {
         mLayoutManager= new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myArticles = new ArrayList<>();
+        districtNames = new ArrayList<String>();
 
 
         searchOptionBtn = view.findViewById(R.id.search_option_Btn);
@@ -244,11 +245,12 @@ public class FragmentNews extends Fragment {
 
     //모든 지역구 이름을 가져온다.
     public void getDistrictNames(){
-        Call<List<String>> call = newsService.getAllDistrictName();
+        Call<List<String>> call = newsService.getAllDistrict();
 
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+
                 List<String> result = response.body();
                 districtNames.addAll(result);
             }

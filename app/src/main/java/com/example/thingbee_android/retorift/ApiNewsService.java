@@ -30,5 +30,5 @@ public interface ApiNewsService {
     Call<List<String>> getAllPresName();
 
     @GET("getAllDistrict")
-    Call<List<String>> getAllDistrictName();
+    Call<List<String>> getAllDistrict();
 }
