@@ -1,9 +1,12 @@
 package com.example.thingbee_android;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +43,7 @@ onCreateViewHolder 메서드안의 내용을 잘 바꾸어야 내가 원하는 �
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<ArticleInfoVO> articles;
+    int nowPosition;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -93,6 +97,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         Log.d("onBindViewHolder", articles.get(position).toString());
         if(articles.get(position).getCode()!=null||articles.get(position).getCode().equals("")) {
+            nowPosition=position;
             holder.article_title.setText(articles.get(position).getTitle());
             holder.article_press.setText(articles.get(position).getPressName());
             holder.article_summary.setText(articles.get(position).getSummary());
@@ -101,6 +106,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Glide.with(holder.itemView.getContext()).load(articles.get(position).getImgURL()).into(holder.article_img);
             }
             holder.article_press_btn.setText(articles.get(position).getDistrictName());
+            holder.article_info_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent (Intent.ACTION_VIEW, Uri.parse(articles.get(nowPosition).getUrl()));
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
         //holder.article_img.setImageResource(articles.get(position).getImgURL());
         //holder.article_press.setImageResource(articles.get(position).img);
@@ -111,6 +123,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public int getItemCount() {
         return articles.size();
     }
+
+
+
 }
 
 /*class MyData{
