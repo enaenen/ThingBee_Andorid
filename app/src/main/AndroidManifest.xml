@@ -17,8 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppNoTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MapMain"
-            android:theme="@style/AppNoTheme"></activity>
+        <activity android:name=".Loading"
+            android:screenOrientation="portrait"
+        >          <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
+            android:name=".MapMain"
+            android:theme="@style/AppNoTheme" />
         <activity android:name=".StatsActivity" />
         <activity
             android:name=".FakeCall"
@@ -32,18 +41,11 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".NewsActivity" />
         <activity android:name=".SearchOneActivity" />
-
         <activity android:name=".SearchPathActivity" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppNoTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
