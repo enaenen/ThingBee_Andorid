@@ -27,7 +27,7 @@ public class TabViewAdapter extends FragmentPagerAdapter {
                 FragmentStatics tab3 = new FragmentStatics();
                 return tab3;
             case 3:
-                FragmentStatics tab4 = new FragmentStatics();
+                FragmentSettings tab4 = new FragmentSettings();
             return tab4;
             case 4:
                 FragmentPrototype tab5 = new FragmentPrototype();
