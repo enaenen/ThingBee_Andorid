@@ -4,16 +4,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +36,7 @@ public class NewsActivity extends AppCompatActivity implements MenuTopbar.OnFrag
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ArticleInfoVO> myArticles;
     private FloatingActionButton searchBtn;
+    private FloatingActionButton emergencyBtn;
     private EditText searchBox;
     private LinearLayout searchBar;
     private Boolean flag;
