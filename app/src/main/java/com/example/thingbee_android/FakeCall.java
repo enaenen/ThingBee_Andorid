@@ -80,7 +80,6 @@ public class FakeCall extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(this);
         temp = sharedPreferences.getString("fakecall","2");
         count=Integer.parseInt(temp);
-        System.out.println("count의 값은 : " + count);
 
 
         //토스트 뿌리기
@@ -213,8 +212,10 @@ public class FakeCall extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        player.stop();
         this.finish();
         super.onBackPressed();
         //뒤로가기 버튼 못누르게 함
+
     }
 }
