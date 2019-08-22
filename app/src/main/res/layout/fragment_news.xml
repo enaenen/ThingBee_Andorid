@@ -15,34 +15,115 @@
         <include layout="@layout/content_news" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="#FFFFFFFF"
-            android:orientation="horizontal"
-            >
+            android:orientation="vertical">
 
-            <EditText
-                android:layout_marginLeft="20sp"
-                android:layout_marginRight="10sp"
-                android:id="@+id/searchBox"
-                android:layout_width="330sp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:background="#FFFFFFFF"
-                android:hint="키워드, 제목 검색"
-                android:textSize="25sp" />
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
+                android:layout_gravity="center">
 
-            <ImageButton
-                android:id="@+id/search"
-                android:layout_marginRight="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center"
-                android:src="@drawable/search_30" />
+                <EditText
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="10sp"
+                    android:id="@+id/searchBox"
+                    android:layout_width="300sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#FFFFFFFF"
+                    android:hint="키워드, 제목 검색"
+                    android:textSize="25sp" />
+
+                <ImageButton
+                    android:id="@+id/search_option_Btn"
+                    android:layout_marginRight="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/open_20" />
+
+                <ImageButton
+                    android:id="@+id/search"
+                    android:layout_marginRight="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/search_30" />
+
+            </LinearLayout>
         </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/optionBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50sp"
+                    android:background="#FFFFFFFF">
+
+                    <TextView
+                        android:id="@+id/district_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="지역구"
+                        android:textSize="20sp" />
+
+                    <ImageButton
+                        android:id="@+id/district_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="10sp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/open_option_20" />
+                 </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50sp"
+                android:background="#FFFFFFFF">
+
+                <TextView
+                    android:id="@+id/date_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    android:text="기간"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/date_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10sp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/open_option_20" />
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/searchBtn"
             android:layout_width="wrap_content"
