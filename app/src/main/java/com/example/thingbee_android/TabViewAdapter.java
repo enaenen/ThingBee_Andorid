@@ -18,17 +18,20 @@ public class TabViewAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case 0:
-                FragmentNews tab11 = new FragmentNews();
-                return tab11;
+                FragmentNews tab1 = new FragmentNews();
+                return tab1;
             case 1:
-                FragmentStatics tab2 = new FragmentStatics();
+                FragmentNews tab2 = new FragmentNews();
                 return tab2;
             case 2:
                 FragmentStatics tab3 = new FragmentStatics();
                 return tab3;
             case 3:
-                FragmentPrototype tab4 = new FragmentPrototype();
-                return tab4;
+                FragmentStatics tab4 = new FragmentStatics();
+            return tab4;
+            case 4:
+                FragmentPrototype tab5 = new FragmentPrototype();
+                return tab5;
             default:
                 return null;
         }
