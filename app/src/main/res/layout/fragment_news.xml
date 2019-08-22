@@ -18,19 +18,29 @@
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#FFFFFF"
-            android:layout_marginTop="0dp"
-            android:orientation="horizontal">
-
+            android:background="#FFFFFFFF"
+            android:orientation="horizontal"
+            >
 
             <EditText
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="10sp"
                 android:id="@+id/searchBox"
-                android:layout_width="match_parent"
+                android:layout_width="330sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="#FFFFFFFF"
                 android:hint="키워드, 제목 검색"
                 android:textSize="25sp" />
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_marginRight="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"
+                android:src="@drawable/search_30" />
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
