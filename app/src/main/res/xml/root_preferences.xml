@@ -26,30 +26,30 @@
         </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/map_btn_status">
+    <PreferenceCategory app:title="@string/btn_status">
         <SwitchPreferenceCompat
             app:key="btn_maps"
-            app:title="@string/maps"
-            app:summary="@string/maps_summary"
+            app:title="@string/panicButton"
+            app:summary="@string/panicButton_summary"
             app:defaultValue="true"
             />
-        <SwitchPreferenceCompat
-            app:key="btn_news"
-            app:title="@string/news"
-            app:summary="@string/news_summary"
-            app:defaultValue="true"
-            />
-        <SwitchPreferenceCompat
-            app:key="btn_stats"
-            app:title="@string/stats"
-            app:summary="@string/stats_summary"
-            app:defaultValue="true"
-            />
-        <SwitchPreferenceCompat
-            app:key="btn_path"
-            app:title="@string/path"
-            app:summary="@string/path_summary"
-            />
+        <!--<SwitchPreferenceCompat-->
+            <!--app:key="btn_news"-->
+            <!--app:title="@string/news"-->
+            <!--app:summary="@string/news_summary"-->
+            <!--app:defaultValue="true"-->
+            <!--/>-->
+        <!--<SwitchPreferenceCompat-->
+            <!--app:key="btn_stats"-->
+            <!--app:title="@string/stats"-->
+            <!--app:summary="@string/stats_summary"-->
+            <!--app:defaultValue="true"-->
+            <!--/>-->
+        <!--<SwitchPreferenceCompat-->
+            <!--app:key="btn_path"-->
+            <!--app:title="@string/path"-->
+            <!--app:summary="@string/path_summary"-->
+            <!--/>-->
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/emergency">

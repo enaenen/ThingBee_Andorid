@@ -14,13 +14,13 @@
     <string name="contract">연락처</string>
     <string name="add_contract">연락처 추가</string>
     <!--지도표시설정-->
-    <string name="map_btn_status">지도 표시 설정</string>
+    <string name="btn_status">호출버튼 표시 설정</string>
     <string name="stats">통계</string>
     <string name="stats_summary">통계 화면에 버튼을 표시합니다.</string>
     <string name="news">뉴스</string>
     <string name="news_summary">뉴스 화면에 버튼을 표시합니다.</string>
-    <string name="maps">지도 </string>
-    <string name="maps_summary">지도 화면에 버튼을 표시합니다.</string>
+    <string name="panicButton">비상 호출버튼 표시 </string>
+    <string name="panicButton_summary">화면에 항상 비상호출 버튼을 표시합니다.</string>
     <string name="path">길찾기</string>
     <string name="path_summary">길찾기 화면에 버튼을 표시합니다.</string>
     <!--페이크 콜/ 호출 관련-->

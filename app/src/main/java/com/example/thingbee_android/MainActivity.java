@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.thingbee_android.fragment.EmergencyButtonFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     //비상호출
     private boolean emActive;
     private long pressedTime = 0;
+    private FragmentManager fm;
+    private EmergencyButtonFragment theButton;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -38,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // getSupportActionBar().setTitle("메인화면");
 
-        //Tab View
 
+        //Tab View
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("지도"));
         tabs.addTab(tabs.newTab().setText("뉴스"));
@@ -59,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         //끝
 
-
         textView = findViewById(R.id.textView);
         submit = findViewById(R.id.buttonSubmit);
 
@@ -73,7 +76,12 @@ public class MainActivity extends AppCompatActivity {
         boolean pathbtn = sharedPreferences.getBoolean("btn_path", false);
         emActive = sharedPreferences.getBoolean("emergency", false);
 
-
+        // 버튼 등장 여부
+        if(mapbtn) {
+            fm = getSupportFragmentManager();
+            theButton = (EmergencyButtonFragment) fm.findFragmentById(R.id.emergencyButton);
+            fm.beginTransaction().show(theButton).commit();
+        }
 
         //리시버
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
