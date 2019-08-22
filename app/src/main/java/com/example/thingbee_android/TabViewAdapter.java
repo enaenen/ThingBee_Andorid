@@ -18,7 +18,7 @@ public class TabViewAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case 0:
-                FragmentNews tab1 = new FragmentNews();
+                FragmentMap tab1 = new FragmentMap();
                 return tab1;
             case 1:
                 FragmentNews tab2 = new FragmentNews();
