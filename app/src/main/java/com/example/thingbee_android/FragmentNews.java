@@ -1,5 +1,7 @@
 package com.example.thingbee_android;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -39,14 +42,21 @@ public class FragmentNews extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ArticleInfoVO> myArticles;
+    private List<String> dates;
+    private List<String> districtNames;
     private FloatingActionButton searchBtn;
     private EditText searchBox;
     private LinearLayout searchBar;
-    private Boolean flag;
+    private LinearLayout searchOptionBar;
+    private Boolean searchBarFlag;
+    private Boolean searchOptionFlag;
     private Animation top;
     private Animation bottom;
     private ImageButton searchButton;
     private String searchWord;
+    private ImageButton searchOptionBtn;
+    private ImageButton dateBtn;
+    private ImageButton districtBtn;
 
     public FragmentNews() {
         // Required empty public constructor
@@ -58,30 +68,94 @@ public class FragmentNews extends Fragment {
         View view =inflater.inflate(R.layout.fragment_news, container, false);
 
         //값 초기화
+
+        searchBarFlag = false;
+        searchOptionFlag = false;
+
         mRecyclerView = view.findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager= new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myArticles = new ArrayList<>();
 
+
+        searchOptionBtn = view.findViewById(R.id.search_option_Btn);
         searchBar = view.findViewById(R.id.searchBar);
         searchBox  = view.findViewById(R.id.searchBox);
         searchBtn = view.findViewById(R.id.searchBtn);
         searchButton = view.findViewById(R.id.search);
+        searchOptionBar = view.findViewById(R.id.optionBar);
+        dateBtn = view.findViewById(R.id.date_btn);
+        districtBtn = view.findViewById(R.id.district_btn);
 
+        searchOptionBar.setVisibility(View.INVISIBLE);
+        searchBar.setVisibility(View.INVISIBLE);
+
+        top = AnimationUtils.loadAnimation(getContext(),R.anim.animation_top);
+        bottom = AnimationUtils.loadAnimation(getContext(),R.anim.animation_bottom);
+
+        dates = new ArrayList<String>();
+        dates.add("선택 없음");
+        dates.add("지난 1일");
+        dates.add("지난 3일");
+        dates.add("지난 7일");
+        dates.add("지난 30일");
+        dates.add("지난 1년");
+
+        //검색창 보이기 버튼
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()){
-                    case R.id.searchBtn :
-                        if(flag){
-                            flag = false;
-                        }else {
-                            flag = true;
-                        }
-                        switchSearchBar();
-                        break;
+                if(searchBarFlag){
+                    searchBarFlag = false;
+
+                    if(searchOptionFlag){
+                        searchOptionFlag = false;
+                        switchSearchOptionBar();
+                    }
+                }else {
+                    searchBarFlag = true;
                 }
+
+                switchSearchBar();
+            }
+        });
+
+        //검색어 옵션 열기
+        searchOptionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(searchOptionFlag){
+                    searchOptionFlag = false;
+                }else {
+                    searchOptionFlag = true;
+                }
+                switchSearchOptionBar();
+            }
+        });
+
+        //지역구 옵션 버튼 클릭
+        districtBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //모든 지역구 이름 정보를 가져온다.
+                getDistrictNames();
+                String[] districtInfos = new String[]{};
+                districtInfos = districtNames.toArray(districtInfos);
+
+                //다이얼로그 생성 메서드 호출
+                makeOptionDialog(districtInfos,"지역구를 선택하세요.");
+            }
+        });
+
+        //날짜 옵션 버튼 클릭시
+        dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] dateInfo = new String[]{};
+                dateInfo = dates.toArray(dateInfo);
+
+                makeOptionDialog(dateInfo,"날짜를 선택하세요.");
             }
         });
 
@@ -89,18 +163,10 @@ public class FragmentNews extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()){
-                    case R.id.search:
-                        searchWord = searchBox.getText().toString();
-                        searchArticleAtFirst();
-                }
+                searchWord = searchBox.getText().toString();
+                searchArticleAtFirst();
             }
         });
-
-        flag = true;
-
-        top = AnimationUtils.loadAnimation(getContext(),R.anim.animation_top);
-        bottom = AnimationUtils.loadAnimation(getContext(),R.anim.animation_bottom);
 
         //http 방식 통신 라이브러리
         retrofit= new Retrofit.Builder()
@@ -136,6 +202,18 @@ public class FragmentNews extends Fragment {
         return view;
     }
 
+    //옵션 선택 다이얼로그를 만든다.
+    private void makeOptionDialog(String[] infos,String title){
+        AlertDialog.Builder optionDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+
+        optionDialog.setTitle(title).setItems(infos, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ;
+            }
+        }).setCancelable(true).show();
+    }
+
     private void searchArticleAtFirst(){
         Map<String, String> params = new HashMap<String, String>();
         params.put("searchWord",searchWord);
@@ -164,6 +242,24 @@ public class FragmentNews extends Fragment {
         });
     }
 
+    //모든 지역구 이름을 가져온다.
+    public void getDistrictNames(){
+        Call<List<String>> call = newsService.getAllDistrictName();
+
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                List<String> result = response.body();
+                districtNames.addAll(result);
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.d("getDistrictNames()","Exception 발생");
+                t.printStackTrace();
+            }
+        });
+    }
 
     public void add_article(){
         //데이터 추가
@@ -187,13 +283,25 @@ public class FragmentNews extends Fragment {
         });
     }
 
+    //검색창 유무 스위치 버튼
     private void switchSearchBar(){
-        if(flag){
+        if(searchBarFlag){
             searchBar.setVisibility(View.VISIBLE);
             searchBar.startAnimation(top);
         }else{
             searchBar.startAnimation(bottom);
             searchBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    //검색 옵션창 스위치 버튼
+    private void switchSearchOptionBar(){
+        if(searchOptionFlag){
+            searchOptionBar.setVisibility(View.VISIBLE);
+            searchOptionBar.startAnimation(top);
+        }else {
+            searchOptionBar.startAnimation(bottom);
+            searchOptionBar.setVisibility(View.INVISIBLE);
         }
     }
 }

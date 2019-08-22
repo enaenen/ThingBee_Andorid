@@ -25,4 +25,10 @@ public interface ApiNewsService {
 
     @GET("updateTopKeywords")
     Call<ResponseBody> getPostCommentStr(@Query("limit") int limit);
+
+    @GET("getAllPress")
+    Call<List<String>> getAllPresName();
+
+    @GET("getAllDistrict")
+    Call<List<String>> getAllDistrictName();
 }
