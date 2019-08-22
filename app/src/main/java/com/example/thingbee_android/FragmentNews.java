@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,9 @@ import com.example.thingbee_android.retorift.ArticleInfoVO;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +45,8 @@ public class FragmentNews extends Fragment {
     private Boolean flag;
     private Animation top;
     private Animation bottom;
-
+    private ImageButton searchButton;
+    private String searchWord;
 
     public FragmentNews() {
         // Required empty public constructor
@@ -60,7 +64,10 @@ public class FragmentNews extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         myArticles = new ArrayList<>();
 
+        searchBar = view.findViewById(R.id.searchBar);
+        searchBox  = view.findViewById(R.id.searchBox);
         searchBtn = view.findViewById(R.id.searchBtn);
+        searchButton = view.findViewById(R.id.search);
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +84,18 @@ public class FragmentNews extends Fragment {
                 }
             }
         });
-        searchBar = view.findViewById(R.id.searchBar);
-        searchBox  = view.findViewById(R.id.searchBox);
+
+        //검색어를 입력한 후, 검색버튼을 눌렀을 경우, 감지하는 onClick 리스너
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()){
+                    case R.id.search:
+                        searchWord = searchBox.getText().toString();
+                        searchArticleAtFirst();
+                }
+            }
+        });
 
         flag = true;
 
@@ -119,6 +136,13 @@ public class FragmentNews extends Fragment {
         return view;
     }
 
+    private void searchArticleAtFirst(){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("searchWord",searchWord);
+//        params.put()
+
+//        Call<List<ArticleInfoVO>> call = newsService.getArticles();
+    }
 
     public void initArticles(){
         Call<List<ArticleInfoVO>> call = newsService.getArticles("first");
@@ -172,6 +196,4 @@ public class FragmentNews extends Fragment {
             searchBar.setVisibility(View.INVISIBLE);
         }
     }
-
-
 }
