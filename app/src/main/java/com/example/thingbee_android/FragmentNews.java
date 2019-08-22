@@ -60,9 +60,23 @@ public class FragmentNews extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         myArticles = new ArrayList<>();
 
-//        findViewById(R.id.fragment).bringToFront();
-
         searchBtn = view.findViewById(R.id.searchBtn);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()){
+                    case R.id.searchBtn :
+                        if(flag){
+                            flag = false;
+                        }else {
+                            flag = true;
+                        }
+                        switchSearchBar();
+                        break;
+                }
+            }
+        });
         searchBar = view.findViewById(R.id.searchBar);
         searchBox  = view.findViewById(R.id.searchBox);
 
@@ -147,19 +161,6 @@ public class FragmentNews extends Fragment {
                 t.printStackTrace();
             }
         });
-    }
-
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.searchBtn :
-                if(flag){
-                    flag = false;
-                }else {
-                    flag = true;
-                }
-                switchSearchBar();
-                break;
-        }
     }
 
     private void switchSearchBar(){
