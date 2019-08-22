@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Tab View
         TabLayout tabs = findViewById(R.id.tabs);
-        tabs.addTab(tabs.newTab().setText("지도"));
-        tabs.addTab(tabs.newTab().setText("뉴스"));
-        tabs.addTab(tabs.newTab().setText("통계"));
-        tabs.addTab(tabs.newTab().setText("설정"));
+        tabs.addTab(tabs.newTab().setText("지도").setIcon(R.drawable.menu_map_img));
+        tabs.addTab(tabs.newTab().setText("뉴스").setIcon(R.drawable.menu_article_img));
+        tabs.addTab(tabs.newTab().setText("통계").setIcon(R.drawable.menu_statics_img));
+        tabs.addTab(tabs.newTab().setText("설정").setIcon(R.drawable.menu_option_img));
         tabs.addTab(tabs.newTab().setText("프로토타입"));
         tabs.setTabGravity(tabs.GRAVITY_FILL);
 
