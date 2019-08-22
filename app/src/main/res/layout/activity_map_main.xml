@@ -27,7 +27,6 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:background="#FFFFFFFF"
-                android:onClick="onMenu"
                 android:paddingRight="10dp"
                 android:src="@drawable/menu"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +65,6 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="4dp"
                 android:background="#FFFFFFFF"
-                android:onClick="onFindWay"
                 android:src="@drawable/find_way2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -101,7 +99,7 @@
             android:padding="0dp"
             android:src="@drawable/location"
             android:background="#00000000"
-            android:onClick="onSight"/>
+            />
 
         <!--시설물 메뉴 표시-->
         <ImageButton
@@ -111,7 +109,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/shield_click"
-            android:onClick="onFacilityMenu"/>
+            />
         <ImageButton
             android:id="@+id/cctvMenu"
             android:layout_width="wrap_content"
@@ -120,7 +118,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/cctv_click"
             android:visibility="gone"
-            android:onClick="showFacility"/>
+            />
         <ImageButton
             android:id="@+id/bellMenu"
             android:layout_width="wrap_content"
@@ -129,7 +127,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/bell_click"
             android:visibility="gone"
-            android:onClick="showFacility"/>
+            />
 
         <ImageButton
             android:id="@+id/policeMenu"
@@ -139,7 +137,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/police_click"
             android:visibility="gone"
-            android:onClick="showFacility"/>
+            />
 
         <ImageButton
             android:id="@+id/lampMenu"
@@ -149,7 +147,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/lamp_click"
             android:visibility="gone"
-            android:onClick="showFacility"/>
+            />
 
         <ImageButton
             android:id="@+id/shopMenu"
@@ -159,7 +157,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/shop_click"
             android:visibility="gone"
-            android:onClick="showFacility"/>
+            />
 
         <ImageButton
             android:id="@+id/protectMenu"
@@ -169,7 +167,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/protect_click"
             android:visibility="gone"
-            android:onClick="showFacility"/>
+            />
 
         <!--장소 검색 하면 텍스트로도 보여줄 창, 미완 -->
         <LinearLayout
