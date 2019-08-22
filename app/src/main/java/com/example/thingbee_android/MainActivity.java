@@ -41,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
         //Tab View
 
         TabLayout tabs = findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("지도"));
         tabs.addTab(tabs.newTab().setText("뉴스"));
-        tabs.addTab(tabs.newTab().setText("Tab 1"));
-        tabs.addTab(tabs.newTab().setText("Tab 2"));
+        tabs.addTab(tabs.newTab().setText("통계"));
+        tabs.addTab(tabs.newTab().setText("설정"));
         tabs.addTab(tabs.newTab().setText("프로토타입"));
         tabs.setTabGravity(tabs.GRAVITY_FILL);
 
         final ViewPager viewPager = findViewById(R.id.viewpager);
-        final TabViewAdapter tabViewAdapter = new TabViewAdapter(getSupportFragmentManager(),4);
+        final TabViewAdapter tabViewAdapter = new TabViewAdapter(getSupportFragmentManager(),5);
         viewPager.setAdapter(tabViewAdapter);
 
         //탭메뉴를 클릭하면 해당 프레그먼트로 변경-싱크화

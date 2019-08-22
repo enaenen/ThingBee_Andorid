@@ -5,10 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".FragmentStatics">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/topbar_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Statics" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"/>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
