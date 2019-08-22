@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.thingbee_android.FragmentMap;
 import com.example.thingbee_android.R;
 import com.example.thingbee_android.MapMain;
 import com.example.thingbee_android.vo.Place;
@@ -40,7 +41,7 @@ public class PlaceFragment extends Fragment {//implements MapMain.OnBackKeyPress
         imageButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                ((MapMain)getActivity()).onFindWay(null);
+                ((FragmentMap)getParentFragment()).onFindWay(null);
             }
         });
         return rootView;

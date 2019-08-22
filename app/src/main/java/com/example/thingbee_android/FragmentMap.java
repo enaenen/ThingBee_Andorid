@@ -275,6 +275,26 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
             }
         });
 
+        // 시설물 메뉴 클릭
+        view.findViewById(R.id.btnFacilityMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(markerOverlay != null) {
+                    tMapView.removeMarkerItem2(markerOverlay.getID());
+                }
+                if(facilityFlag == false){
+                    facilityFlag =true;
+                    btnFacilityMenu.setSelected(true);
+                    showFacilAnime();
+                }
+                else {
+                    facilityFlag = false;
+                    btnFacilityMenu.setSelected(false);
+                    hideFacilityBtn();
+                }
+            }
+        });
+
         int[] facilityNum= {R.id.cctvMenu, R.id.bellMenu, R.id.policeMenu, R.id.lampMenu,
                 R.id.shopMenu,R.id.protectMenu};
 
@@ -750,6 +770,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        bitmap = null;
                         if(facilityFlag){
                             hideFacilityBtn();
                         }
@@ -780,10 +801,10 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                                 markerItem.setIcon(bitmap);
                                 markerItem.setPosition(0.5f,0.5f);
                                 markerItem.setTMapPoint(tMapPoint);
-                                markerItem.setName((String) temp.get("name"));
+                                markerItem.setName("place");
                                 tMapView.addMarkerItem((String) temp.get("id"),markerItem);
 
-                                placeMarker.add(markerItem);   // 시설물 배열에 마커 추가
+                                placeMarker.add(markerItem);   // 장소 리스트에 추가
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -797,23 +818,6 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 });
             }
             catch(Exception e ){e.printStackTrace();}
-        }
-    }
-
-    // 시설물 메뉴 클릭
-    public void onFacilityMenu(View view) {
-        if(markerOverlay != null) {
-            tMapView.removeMarkerItem2(markerOverlay.getID());
-        }
-        if(facilityFlag == false){
-            facilityFlag =true;
-            btnFacilityMenu.setSelected(true);
-            showFacilAnime();
-        }
-        else {
-            facilityFlag = false;
-            btnFacilityMenu.setSelected(false);
-            hideFacilityBtn();
         }
     }
 
@@ -974,8 +978,8 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 Log.d("right", String.valueOf(rightBottomPoint.getLongitude()));
                 Log.d("top", String.valueOf(leftTopPoint.getLatitude()));
                 Log.d("bottom", String.valueOf(rightBottomPoint.getLatitude()));
-                new AroundFacilityThread("http://192.168.30.244:8080/api/map/search/around"+
-//                        new AroundFacilityThread(getString(R.string.aroundFacilityURL)+
+//                new AroundFacilityThread("http://192.168.30.244:8080/api/map/search/around"+
+                        new AroundFacilityThread(getString(R.string.aroundFacilityURL)+
                         "?la="+rightBottomPoint.getLatitude()+
                         "&ka="+leftTopPoint.getLatitude()+
                         "&ea="+leftTopPoint.getLongitude()+
@@ -1004,8 +1008,8 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         double right = rightBottomPoint.getLongitude();
 
         try {
-//            new HttpThread(getString(R.string.searchFacilityURL) +
-            new HttpThread("http://192.168.30.244:8080/api/map/search/mobile" +
+            new HttpThread(getString(R.string.searchFacilityURL) +
+//            new HttpThread("http://192.168.30.244:8080/api/map/search/mobile" +
                     "?la="+bottom+
                     "&ka="+top+
                     "&ea="+left+
@@ -1156,9 +1160,8 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
 
         @Override
         public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
-            Log.d("clickLat", String.valueOf(tMapPoint.getLatitude()));
-            Log.d("clickLon", String.valueOf(tMapPoint.getLongitude()));
-            //                Toast.makeText(getApplicationContext(), "onPress~!", Toast.LENGTH_SHORT).show();
+//            Log.d("clickLat", String.valueOf(tMapPoint.getLatitude()));
+//            Log.d("clickLon", String.valueOf(tMapPoint.getLongitude()));
             return false;
         }
 
@@ -1186,9 +1189,11 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
             }
 
             TMapMarkerItem clickMarker = arrayList.get(0); // 클릭한 마커
+            Log.d("name",clickMarker.getName());
+            Log.d("id",clickMarker.getID());
 
             // 아이디, 이름이 같으면 시설물
-            if(clickMarker.getID() == clickMarker.getName()) {
+            if(clickMarker.getID().equals(clickMarker.getName())) {
                 // 시설물 상세정보 요청
                 new DetailThread(getString(R.string.facilityDetailURL)+"?code="+clickMarker.getID(),
                         clickMarker.getTMapPoint().getLatitude(),clickMarker.getTMapPoint().getLongitude()).start();

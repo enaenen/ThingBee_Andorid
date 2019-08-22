@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.thingbee_android.FragmentMap;
 import com.example.thingbee_android.MapMain;
 import com.example.thingbee_android.PathAdapter;
 import com.example.thingbee_android.R;
@@ -58,7 +59,7 @@ public class DetailPathFragment extends Fragment {//implements MapMain.OnBackKey
             // l : 일반적으로 position과 같은 개념 ( id )
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ((MapMain) getActivity()).searchAroundFacility(i);
+                ((FragmentMap)getParentFragment()).searchAroundFacility(i);
             }
         });
 

@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.thingbee_android.FragmentMap;
+import com.example.thingbee_android.MainActivity;
 import com.example.thingbee_android.R;
 import com.example.thingbee_android.MapMain;
 
@@ -34,7 +36,7 @@ public class PathSimpleContent extends Fragment {//implements MapMain.OnBackKeyP
         detailPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MapMain)getActivity()).getDetailPath();
+                ((FragmentMap)getParentFragment()).getDetailPath();
             }
         });
         return rootView;
