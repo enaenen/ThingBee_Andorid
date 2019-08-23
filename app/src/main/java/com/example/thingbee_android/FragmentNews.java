@@ -43,6 +43,7 @@ public class FragmentNews extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private List<ArticleInfoVO> myArticles;
     private List<String> dates;
+    private List<String> datesRes;
     private List<String> districtNames;
     private FloatingActionButton searchBtn;
     private EditText searchBox;
@@ -70,6 +71,13 @@ public class FragmentNews extends Fragment {
         View view =inflater.inflate(R.layout.fragment_news, container, false);
 
         //값 초기화
+
+        //http 방식 통신 라이브러리
+        retrofit= new Retrofit.Builder()
+                .baseUrl(ApiNewsService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //GSON parser 라이브러리 사용
+                .build();
+        newsService=retrofit.create(ApiNewsService.class);
 
         searchBarFlag = false;
         searchOptionFlag = false;
@@ -100,16 +108,29 @@ public class FragmentNews extends Fragment {
         top = AnimationUtils.loadAnimation(getContext(),R.anim.animation_top);
         bottom = AnimationUtils.loadAnimation(getContext(),R.anim.animation_bottom);
 
-        params.put("date","");
-        params.put("district","");
+        params.put("dateTmp","");
+        params.put("districtTmp","");
+
 
         dates = new ArrayList<String>();
+        datesRes = new ArrayList<String>();
+
+        //다시
         dates.add("선택 없음");
         dates.add("지난 1일");
         dates.add("지난 3일");
         dates.add("지난 7일");
         dates.add("지난 30일");
         dates.add("지난 1년");
+
+        datesRes.add("");
+        datesRes.add("1");
+        datesRes.add("3");
+        datesRes.add("7");
+        datesRes.add("30");
+        datesRes.add("365");
+
+        setDistrictNames();
 
         //검색창 보이기 버튼
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -150,13 +171,9 @@ public class FragmentNews extends Fragment {
         districtBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //모든 지역구 이름 정보를 가져온다.
-                getDistrictNames();
-                String[] districtInfos = new String[]{};
-                districtInfos = districtNames.toArray(districtInfos);
-
                 //다이얼로그 생성 메서드 호출
-                makeOptionDialog(districtInfos,"지역구를 선택하세요.","district");
+
+                makeOptionDialog(districtNames.toArray(new String[districtNames.size()]),"지역구를 선택하세요.","district");
             }
         });
 
@@ -164,10 +181,10 @@ public class FragmentNews extends Fragment {
         dateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[] dateInfo = new String[]{};
-                dateInfo = dates.toArray(dateInfo);
 
-                makeOptionDialog(dateInfo,"날짜를 선택하세요.","date");
+
+                makeOptionDialog((String[])dates.toArray(new String[dates.size()]),"날짜를 선택하세요.","date");
+
             }
         });
 
@@ -181,24 +198,13 @@ public class FragmentNews extends Fragment {
             }
         });
 
-        //http 방식 통신 라이브러리
-        retrofit= new Retrofit.Builder()
-                .baseUrl(ApiNewsService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create()) //GSON parser 라이브러리 사용
-                .build();
-        newsService=retrofit.create(ApiNewsService.class);
+
 
         initArticles();     //기사 초기화(myArticles),
         Log.d("test", myArticles.toString());
         mAdapter = new MyAdapter(myArticles);   //어댑터 생성, 데이터 부여
         mRecyclerView.setAdapter(mAdapter);     //어댑터 등록
 
-
-        //탑 뷰 프래그먼트
-/*        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        MenuTopbar topbar= new MenuTopbar();
-        fragmentTransaction.add(R.id.topbar_container, topbar);
-        fragmentTransaction.commit();*/
 
 
         //스크롤이벤트
@@ -224,11 +230,13 @@ public class FragmentNews extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch(type){
                     case "date" :
-                        params.put(type,dates.get(i));
+
+                        params.put(type+"Tmp",datesRes.get(i));
                         dateText.setText(dates.get(i));
                         break;
                     case "district":
-                        params.put(type,districtNames.get(i));
+                        params.put(type+"Tmp",districtNames.get(i));
+
                         districtText.setText(districtNames.get(i));
                         break;
                 }
@@ -241,19 +249,34 @@ public class FragmentNews extends Fragment {
         params.put("lastArticleCode","");
         params.put("mode","init");
 
+
+        params.put("date", params.get("dateTmp"));
+        params.put("district", params.get("districtTmp"));
+        params.remove("dateTmp");
+        params.remove("districtTmp");
+
+
         System.out.println(params);
-        Call<List<ArticleInfoVO>> call = newsService.getArticles(params);
+        Call<List<ArticleInfoVO>> call = newsService.searchNews(params);
+
 
         call.enqueue(new Callback<List<ArticleInfoVO>>() {
             @Override   //onRes, onFail 둘다 스레드로 돌기 때문에 윗라인 실행하고 initArticel 메서드는
             //종료된다. 이후 다른작업을 하다가 아래 스레드가 실행된다.
             public void onResponse(Call<List<ArticleInfoVO>> call, Response<List<ArticleInfoVO>> response) {
                 List<ArticleInfoVO> result=response.body();
-                myArticles.clear();
 
-                myArticles.addAll(result);
-                Log.d("test", "기사: "+myArticles);
-                mAdapter.notifyDataSetChanged();    //데이터 업데이트
+                Log.d("test",params.toString());
+                if(result!=null) {
+                    myArticles.clear();
+                    myArticles.addAll(result);
+                    Log.d("test", "기사: " + myArticles);
+                    mAdapter.notifyDataSetChanged();    //데이터 업데이트
+
+                    params.put("dateTmp","");
+                    params.put("districtTmp","");
+                }
+
             }
             @Override
             public void onFailure(Call<List<ArticleInfoVO>> call, Throwable t) {
@@ -285,7 +308,9 @@ public class FragmentNews extends Fragment {
     }
 
     //모든 지역구 이름을 가져온다.
-    public void getDistrictNames(){
+
+    public void setDistrictNames(){
+
         Call<List<String>> call = newsService.getAllDistrict();
 
         call.enqueue(new Callback<List<String>>() {
@@ -296,7 +321,6 @@ public class FragmentNews extends Fragment {
                 districtNames.addAll(result);
 
             }
-
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
                 Log.d("getDistrictNames()","Exception 발생");
@@ -308,7 +332,12 @@ public class FragmentNews extends Fragment {
     public void add_article(){
         //데이터 추가
         int size= myArticles.size();
-        Call<List<ArticleInfoVO>> call = newsService.getArticles(myArticles.get(size-1).getCode());
+        Call<List<ArticleInfoVO>> call=null;    //이전코드가 없는경우
+        if(size==0){
+            call = newsService.getArticles("");
+        }else {
+            call = newsService.getArticles(myArticles.get(size - 1).getCode());
+        }
         Log.d("test", "call 할당");
         call.enqueue(new Callback<List<ArticleInfoVO>>() {
             @Override
@@ -316,6 +345,7 @@ public class FragmentNews extends Fragment {
                 List<ArticleInfoVO> result=response.body();
                 if(result!=null)
                     myArticles.addAll(result);
+
                 Log.d("test",result.toString());
                 mAdapter.notifyDataSetChanged();    //Recycle View의 데이터,화면 업데이트.
             }

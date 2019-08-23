@@ -96,16 +96,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Log.d("onBindViewHolder", articles.get(position).toString());
-        if(articles.get(position).getCode()!=null||articles.get(position).getCode().equals("")) {
+        ArticleInfoVO article= articles.get(position);
+        if(article.getCode()!=null||article.getCode().equals("")||article.getImgURL()!=null) {
             nowPosition=position;
-            holder.article_title.setText(articles.get(position).getTitle());
-            holder.article_press.setText(articles.get(position).getPressName());
-            holder.article_summary.setText(articles.get(position).getSummary());
-            holder.article_date.setText(articles.get(position).getArticleTime());
-            if(articles.get(position).getImgURL().startsWith("http")) {
-                Glide.with(holder.itemView.getContext()).load(articles.get(position).getImgURL()).into(holder.article_img);
+            holder.article_title.setText(article.getTitle());
+            holder.article_press.setText(article.getPressName());
+            holder.article_summary.setText(article.getSummary());
+            holder.article_date.setText(article.getArticleTime());
+            if(article.getImgURL()!=null && articles.get(position).getImgURL().startsWith("http")) {
+                Glide.with(holder.itemView.getContext()).load(article.getImgURL()).into(holder.article_img);
             }
-            holder.article_press_btn.setText(articles.get(position).getDistrictName());
+            holder.article_press_btn.setText(article.getDistrictName());
             holder.article_info_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
