@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -52,11 +52,13 @@ public class FragmentNews extends Fragment {
     private Boolean searchOptionFlag;
     private Animation top;
     private Animation bottom;
+    private TextView dateText;
+    private TextView districtText;
     private ImageButton searchButton;
-    private String searchWord;
     private ImageButton searchOptionBtn;
     private ImageButton dateBtn;
     private ImageButton districtBtn;
+    private Map<String, String> params;
 
     public FragmentNews() {
         // Required empty public constructor
@@ -78,7 +80,7 @@ public class FragmentNews extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         myArticles = new ArrayList<>();
         districtNames = new ArrayList<String>();
-
+        params = new HashMap<String, String>();
 
         searchOptionBtn = view.findViewById(R.id.search_option_Btn);
         searchBar = view.findViewById(R.id.searchBar);
@@ -92,8 +94,14 @@ public class FragmentNews extends Fragment {
         searchOptionBar.setVisibility(View.INVISIBLE);
         searchBar.setVisibility(View.INVISIBLE);
 
+        dateText = view.findViewById(R.id.date_name);
+        districtText = view.findViewById(R.id.district_name);
+
         top = AnimationUtils.loadAnimation(getContext(),R.anim.animation_top);
         bottom = AnimationUtils.loadAnimation(getContext(),R.anim.animation_bottom);
+
+        params.put("date","");
+        params.put("district","");
 
         dates = new ArrayList<String>();
         dates.add("선택 없음");
@@ -127,8 +135,11 @@ public class FragmentNews extends Fragment {
             @Override
             public void onClick(View view) {
                 if(searchOptionFlag){
+                    searchOptionBtn.setImageResource(R.drawable.open_20);
                     searchOptionFlag = false;
                 }else {
+                    searchOptionBtn.setImageResource(R.drawable.close_20);
+
                     searchOptionFlag = true;
                 }
                 switchSearchOptionBar();
@@ -145,7 +156,7 @@ public class FragmentNews extends Fragment {
                 districtInfos = districtNames.toArray(districtInfos);
 
                 //다이얼로그 생성 메서드 호출
-                makeOptionDialog(districtInfos,"지역구를 선택하세요.");
+                makeOptionDialog(districtInfos,"지역구를 선택하세요.","district");
             }
         });
 
@@ -156,7 +167,7 @@ public class FragmentNews extends Fragment {
                 String[] dateInfo = new String[]{};
                 dateInfo = dates.toArray(dateInfo);
 
-                makeOptionDialog(dateInfo,"날짜를 선택하세요.");
+                makeOptionDialog(dateInfo,"날짜를 선택하세요.","date");
             }
         });
 
@@ -164,8 +175,9 @@ public class FragmentNews extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchWord = searchBox.getText().toString();
-                searchArticleAtFirst();
+                params.put("searchWord",searchBox.getText().toString());
+
+                searchArticle();
             }
         });
 
@@ -204,23 +216,52 @@ public class FragmentNews extends Fragment {
     }
 
     //옵션 선택 다이얼로그를 만든다.
-    private void makeOptionDialog(String[] infos,String title){
+    private void makeOptionDialog(String[] infos,String title,final String type){
         AlertDialog.Builder optionDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
         optionDialog.setTitle(title).setItems(infos, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ;
+                switch(type){
+                    case "date" :
+                        params.put(type,dates.get(i));
+                        dateText.setText(dates.get(i));
+                        break;
+                    case "district":
+                        params.put(type,districtNames.get(i));
+                        districtText.setText(districtNames.get(i));
+                        break;
+                }
             }
         }).setCancelable(true).show();
     }
 
-    private void searchArticleAtFirst(){
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("searchWord",searchWord);
-//        params.put()
 
-//        Call<List<ArticleInfoVO>> call = newsService.getArticles();
+    private void searchArticle(){
+        params.put("lastArticleCode","");
+        params.put("mode","init");
+
+        System.out.println(params);
+        Call<List<ArticleInfoVO>> call = newsService.getArticles(params);
+
+        call.enqueue(new Callback<List<ArticleInfoVO>>() {
+            @Override   //onRes, onFail 둘다 스레드로 돌기 때문에 윗라인 실행하고 initArticel 메서드는
+            //종료된다. 이후 다른작업을 하다가 아래 스레드가 실행된다.
+            public void onResponse(Call<List<ArticleInfoVO>> call, Response<List<ArticleInfoVO>> response) {
+                List<ArticleInfoVO> result=response.body();
+                myArticles.clear();
+
+                myArticles.addAll(result);
+                Log.d("test", "기사: "+myArticles);
+                mAdapter.notifyDataSetChanged();    //데이터 업데이트
+            }
+            @Override
+            public void onFailure(Call<List<ArticleInfoVO>> call, Throwable t) {
+                Log.d("searchArticle()","Exception 발생");
+                t.printStackTrace();
+            }
+        });
+
     }
 
     public void initArticles(){
@@ -253,6 +294,7 @@ public class FragmentNews extends Fragment {
 
                 List<String> result = response.body();
                 districtNames.addAll(result);
+
             }
 
             @Override
