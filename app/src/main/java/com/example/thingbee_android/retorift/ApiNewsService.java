@@ -7,6 +7,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface ApiNewsService {
 
@@ -17,7 +18,7 @@ public interface ApiNewsService {
     Call<List<ArticleInfoVO>> getArticles(@Query("lastArticleCode") String lastArticleCode);
 
     @GET("searchNews")
-    Call<List<ArticleInfoVO>> getArticles(@Query("searchNews") Map<String, String> params);
+    Call<List<ArticleInfoVO>> searchNews(@QueryMap Map<String, String> params);
 
     //String version
     @GET("increaseViewCount")
@@ -30,5 +31,5 @@ public interface ApiNewsService {
     Call<List<String>> getAllPresName();
 
     @GET("getAllDistrict")
-    Call<List<String>> getAllDistrictName();
+    Call<List<String>> getAllDistrict();
 }
