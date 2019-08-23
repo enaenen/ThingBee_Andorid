@@ -111,6 +111,7 @@ public class FragmentNews extends Fragment {
         params.put("dateTmp","");
         params.put("districtTmp","");
 
+
         dates = new ArrayList<String>();
         datesRes = new ArrayList<String>();
 
@@ -171,6 +172,7 @@ public class FragmentNews extends Fragment {
             @Override
             public void onClick(View view) {
                 //다이얼로그 생성 메서드 호출
+
                 makeOptionDialog(districtNames.toArray(new String[districtNames.size()]),"지역구를 선택하세요.","district");
             }
         });
@@ -180,7 +182,9 @@ public class FragmentNews extends Fragment {
             @Override
             public void onClick(View view) {
 
+
                 makeOptionDialog((String[])dates.toArray(new String[dates.size()]),"날짜를 선택하세요.","date");
+
             }
         });
 
@@ -226,11 +230,13 @@ public class FragmentNews extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch(type){
                     case "date" :
+
                         params.put(type+"Tmp",datesRes.get(i));
                         dateText.setText(dates.get(i));
                         break;
                     case "district":
                         params.put(type+"Tmp",districtNames.get(i));
+
                         districtText.setText(districtNames.get(i));
                         break;
                 }
@@ -243,6 +249,7 @@ public class FragmentNews extends Fragment {
         params.put("lastArticleCode","");
         params.put("mode","init");
 
+
         params.put("date", params.get("dateTmp"));
         params.put("district", params.get("districtTmp"));
         params.remove("dateTmp");
@@ -252,11 +259,13 @@ public class FragmentNews extends Fragment {
         System.out.println(params);
         Call<List<ArticleInfoVO>> call = newsService.searchNews(params);
 
+
         call.enqueue(new Callback<List<ArticleInfoVO>>() {
             @Override   //onRes, onFail 둘다 스레드로 돌기 때문에 윗라인 실행하고 initArticel 메서드는
             //종료된다. 이후 다른작업을 하다가 아래 스레드가 실행된다.
             public void onResponse(Call<List<ArticleInfoVO>> call, Response<List<ArticleInfoVO>> response) {
                 List<ArticleInfoVO> result=response.body();
+
                 Log.d("test",params.toString());
                 if(result!=null) {
                     myArticles.clear();
@@ -267,6 +276,7 @@ public class FragmentNews extends Fragment {
                     params.put("dateTmp","");
                     params.put("districtTmp","");
                 }
+
             }
             @Override
             public void onFailure(Call<List<ArticleInfoVO>> call, Throwable t) {
@@ -274,6 +284,7 @@ public class FragmentNews extends Fragment {
                 t.printStackTrace();
             }
         });
+
     }
 
     public void initArticles(){
@@ -297,7 +308,9 @@ public class FragmentNews extends Fragment {
     }
 
     //모든 지역구 이름을 가져온다.
+
     public void setDistrictNames(){
+
         Call<List<String>> call = newsService.getAllDistrict();
 
         call.enqueue(new Callback<List<String>>() {
@@ -306,6 +319,7 @@ public class FragmentNews extends Fragment {
 
                 List<String> result = response.body();
                 districtNames.addAll(result);
+
             }
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
