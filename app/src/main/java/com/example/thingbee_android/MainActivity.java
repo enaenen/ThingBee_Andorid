@@ -1,14 +1,24 @@
 package com.example.thingbee_android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
@@ -18,10 +28,13 @@ import com.example.thingbee_android.fragment.EmergencyButtonFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
+    public final static int REQUEST_CODE = 3333;
     private TextView textView;
     private Button settings;
     private Button submit;
     private Button buttonFakeCall;
+    private ImageButton emergencyBtn;
+
     //비상호출
     private boolean emActive;
     private long pressedTime = 0;
@@ -42,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // getSupportActionBar().setTitle("메인화면");
 
-
         //Tab View
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("지도").setIcon(R.drawable.menu_map_img));
@@ -60,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 
-
         //끝
 
         textView = findViewById(R.id.textView);
@@ -70,32 +81,37 @@ public class MainActivity extends AppCompatActivity {
         // sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         // editor = sharedPreferences.edit();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this /* Activity context */);
-        boolean mapbtn = sharedPreferences.getBoolean("btn_maps", false);
-        boolean newsbtn = sharedPreferences.getBoolean("btn_news", false);
-        boolean statsbtn = sharedPreferences.getBoolean("btn_stats", false);
-        boolean pathbtn = sharedPreferences.getBoolean("btn_path", false);
+
+        boolean mapbtn = sharedPreferences.getBoolean("btn_maps", true);
+//        boolean newsbtn = sharedPreferences.getBoolean("btn_news", false);
+//        boolean statsbtn = sharedPreferences.getBoolean("btn_stats", false);
+//        boolean pathbtn = sharedPreferences.getBoolean("btn_path", false);
         emActive = sharedPreferences.getBoolean("emergency", false);
 
-        // 버튼 등장 여부
+//         버튼 등장 여부
         if(mapbtn) {
-            fm = getSupportFragmentManager();
-            theButton = (EmergencyButtonFragment) fm.findFragmentById(R.id.emergencyButton);
-            fm.beginTransaction().show(theButton).commit();
+            startOverlayWindowService(this);
+        }else{
+            new ChatHeadService().onDestroy();
         }
 
-        //리시버
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_USER_PRESENT);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            try{
+                startService(new Intent(MainActivity.this, ChatHeadService.class));
+            }catch(SecurityException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonSettings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                break;
-            case R.id.buttonFakeCall:
-                startActivity(new Intent(this, FakeCall.class));
                 break;
             case R.id.buttonNews:
                 startActivity(new Intent(this, NewsActivity.class));
@@ -133,5 +149,38 @@ public class MainActivity extends AppCompatActivity {
         }
         System.out.println(counter);
         return true;
+    }
+
+    public void startOverlayWindowService(Context context) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+
+            if(!Settings.canDrawOverlays(context)){
+                Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION");
+                intent.setData( Uri.parse("package:" + context.getPackageName()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, REQUEST_CODE);
+            }else{
+                context.startService(new Intent(context,ChatHeadService.class));
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if (requestCode == REQUEST_CODE) {
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+                if (Settings.canDrawOverlays(this)) {
+                    Toast.makeText(this, "오버레이 권한 확인 완료", Toast.LENGTH_SHORT).show();
+                    this.startService(new Intent(this,ChatHeadService.class));
+                } else {
+                    Toast.makeText(this, "오버레이 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
     }
 }
