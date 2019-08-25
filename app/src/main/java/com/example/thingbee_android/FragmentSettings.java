@@ -1,6 +1,7 @@
 package com.example.thingbee_android;
 
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,6 +55,30 @@ public class FragmentSettings extends Fragment {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(getContext());
 
+        SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                switch(key) {
+                    case "btn_maps":
+                        System.out.println(sharedPreferences.getBoolean("btn_maps", true)+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+                        if(sharedPreferences.getBoolean("btn_maps", true)){
+
+                            if(!isServiceRunning()){
+                                startOverlayWindowService(getContext());
+                            }
+                        }else{
+                            if(isServiceRunning()){
+                                getContext().stopService(new Intent(getContext(),ChatHeadService.class));
+                            }
+                        }
+                        break;
+                }
+            }
+        };
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+
+
         return view;
     }
 
@@ -61,6 +86,50 @@ public class FragmentSettings extends Fragment {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        }
+    }
+
+    public boolean isServiceRunning(){
+        ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+
+        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+            if(ChatHeadService.class.getName().equals(service.service.getClassName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void startOverlayWindowService(Context context) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+
+            if(!Settings.canDrawOverlays(context)){
+                Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION");
+                intent.setData( Uri.parse("package:" + context.getPackageName()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, REQUEST_CODE);
+            }else{
+                context.startService(new Intent(context,ChatHeadService.class));
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if (requestCode == REQUEST_CODE) {
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+                if (Settings.canDrawOverlays(getContext())) {
+                    Toast.makeText(getContext(), "오버레이 권한 확인 완료", Toast.LENGTH_SHORT).show();
+                    getContext().startService(new Intent(getContext(),ChatHeadService.class));
+                } else {
+                    Toast.makeText(getContext(), "오버레이 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                }
+
+            }
         }
     }
 }

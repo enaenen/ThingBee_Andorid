@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 
 public class ChatHeadService extends Service {
 
+    private GestureDetector gestureDetector;
     private View chatHeadView;
     private WindowManager windowManager;
     private WindowManager.LayoutParams params;
@@ -23,9 +25,7 @@ public class ChatHeadService extends Service {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
 
-            if(motionEvent.isButtonPressed(R.id.emergencyButton)){
-
-            }
+            gestureDetector.onTouchEvent(motionEvent);
 
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 return true;
@@ -41,6 +41,8 @@ public class ChatHeadService extends Service {
                 }
 
                 windowManager.updateViewLayout(chatHeadView, params);
+
+
                 return true;
             }
 
@@ -52,7 +54,9 @@ public class ChatHeadService extends Service {
 
                 return true;
             }
-            return false;
+
+
+            return true;
         }
     };
 
@@ -89,13 +93,37 @@ public class ChatHeadService extends Service {
         ImageView chatheadImage = chatHeadView.findViewById(R.id.chathead_image);
         chatheadImage.setOnTouchListener(touchListener);
 
-        chatheadImage.setOnClickListener(new View.OnClickListener() {
+        gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                return true;
+            }
 
             @Override
-            public void onClick(View view) {
+            public void onShowPress(MotionEvent motionEvent) {
+                return ;
+            }
 
-                System.out.println("???????????????????????????????터치?????????????????????/");
-                startActivity(new Intent(view.getContext(), FakeCall.class));
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                System.out.println(motionEvent.getAction());
+                startActivity(new Intent(getApplicationContext(), FakeCall.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                return true;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
             }
         });
     }

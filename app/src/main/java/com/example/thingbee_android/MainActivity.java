@@ -1,5 +1,6 @@
 package com.example.thingbee_android;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,11 +22,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreferenceCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.thingbee_android.fragment.EmergencyButtonFragment;
 import com.google.android.material.tabs.TabLayout;
+
+import java.lang.ref.Reference;
+import java.util.prefs.PreferenceChangeListener;
 
 public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_CODE = 3333;
@@ -35,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonFakeCall;
     private ImageButton emergencyBtn;
 
+    private boolean mapbtn;
     //비상호출
     private boolean emActive;
     private long pressedTime = 0;
@@ -82,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         // editor = sharedPreferences.edit();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this /* Activity context */);
 
-        boolean mapbtn = sharedPreferences.getBoolean("btn_maps", true);
+        mapbtn = sharedPreferences.getBoolean("btn_maps", true);
 //        boolean newsbtn = sharedPreferences.getBoolean("btn_news", false);
 //        boolean statsbtn = sharedPreferences.getBoolean("btn_stats", false);
 //        boolean pathbtn = sharedPreferences.getBoolean("btn_path", false);
@@ -91,10 +100,7 @@ public class MainActivity extends AppCompatActivity {
 //         버튼 등장 여부
         if(mapbtn) {
             startOverlayWindowService(this);
-        }else{
-            new ChatHeadService().onDestroy();
         }
-
     }
 
     @Override
@@ -128,26 +134,30 @@ public class MainActivity extends AppCompatActivity {
     //볼륨 다운 버튼 3번을 눌렀을때 비상호출 작동
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         int nowTime;
-        if (emActive) {
-            counter++;
-            if (pressedTime == 0) {//현재 누른시간이 없다는것==버튼을 첫번째로 누른다는것
-                pressedTime = System.currentTimeMillis();
-            } else {//버튼이 누르는게 첫번째가 아니라면
-                nowTime = (int) (System.currentTimeMillis() - pressedTime);//지금 누른시간-맨처음버튼누른시간
-                //빼서 2초안에 다시 누른거면 인정 2초안에 누른게 아니라면 초기화
-                if (nowTime < 2000 && counter >= 3) {//2초안에 3번 볼륨다운을 눌렀을때
-                    startActivity(new Intent(this, FakeCall.class));
-                    pressedTime = 0;
-                    counter = 0;
-                }else if((counter>1 )&& (nowTime<2000)){//2초안에 눌렀지만 두번눌렀을때
+        switch (keyCode){
+            case  KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (emActive) {
+                    counter++;
+                    if (pressedTime == 0) {//현재 누른시간이 없다는것==버튼을 첫번째로 누른다는것
+                        pressedTime = System.currentTimeMillis();
+                    } else {//버튼이 누르는게 첫번째가 아니라면
+                        nowTime = (int) (System.currentTimeMillis() - pressedTime);//지금 누른시간-맨처음버튼누른시간
+                        //빼서 2초안에 다시 누른거면 인정 2초안에 누른게 아니라면 초기화
+                        if (nowTime < 2000 && counter >= 3) {//2초안에 3번 볼륨다운을 눌렀을때
+                            startActivity(new Intent(this, FakeCall.class));
+                            pressedTime = 0;
+                            counter = 0;
+                        }else if((counter>1 )&& (nowTime<2000)){//2초안에 눌렀지만 두번눌렀을때
 
-                }else {//시간초과되었을때
-                    pressedTime = 0;
-                    counter = 0;
+                        }else {//시간초과되었을때
+                            pressedTime = 0;
+                            counter = 0;
+                        }
+                    }
                 }
-            }
+                System.out.println(counter);
+                break;
         }
-        System.out.println(counter);
         return true;
     }
 
