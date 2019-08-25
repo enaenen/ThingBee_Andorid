@@ -15,7 +15,8 @@
   -->
 
 <androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/preference">
     <PreferenceCategory app:title="@string/add_contract">
         <Preference
             app:title="연락처 추가"
@@ -28,6 +29,7 @@
 
     <PreferenceCategory app:title="@string/btn_status">
         <SwitchPreferenceCompat
+            android:id="@+id/emergency_btn"
             app:key="btn_maps"
             app:title="@string/panicButton"
             app:summary="@string/panicButton_summary"
