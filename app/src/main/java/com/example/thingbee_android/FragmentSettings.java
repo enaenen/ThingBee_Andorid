@@ -8,20 +8,16 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
-
 import android.provider.Settings;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 
 /**
@@ -60,7 +56,7 @@ public class FragmentSettings extends Fragment {
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 switch(key) {
                     case "btn_maps":
-                        System.out.println(sharedPreferences.getBoolean("btn_maps", true)+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+                        //System.out.println(sharedPreferences.getBoolean("btn_maps", true)+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
                         if(sharedPreferences.getBoolean("btn_maps", true)){
 
                             if(!isServiceRunning()){

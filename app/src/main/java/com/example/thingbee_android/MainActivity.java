@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonFakeCall;
     private ImageButton emergencyBtn;
 
+    protected static boolean isEmergencyActive = false;
     private boolean mapbtn;
     //비상호출
     private boolean emActive;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // getSupportActionBar().setTitle("메인화면");
+        // getSupportActionBar().setTitle("메인화면");ㅍ
 
         //Tab View
         TabLayout tabs = findViewById(R.id.tabs);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.addTab(tabs.newTab().setText("뉴스").setIcon(R.drawable.menu_article_img));
         tabs.addTab(tabs.newTab().setText("통계").setIcon(R.drawable.menu_statics_img));
         tabs.addTab(tabs.newTab().setText("설정").setIcon(R.drawable.menu_option_img));
-        tabs.addTab(tabs.newTab().setText("프로토타입"));
+        //tabs.addTab(tabs.newTab().setText("프로토타입"));
         tabs.setTabGravity(tabs.GRAVITY_FILL);
 
         final ViewPager viewPager = findViewById(R.id.viewpager);
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                         nowTime = (int) (System.currentTimeMillis() - pressedTime);//지금 누른시간-맨처음버튼누른시간
                         //빼서 2초안에 다시 누른거면 인정 2초안에 누른게 아니라면 초기화
                         if (nowTime < 2000 && counter >= 3) {//2초안에 3번 볼륨다운을 눌렀을때
+                            isEmergencyActive=true;
                             startActivity(new Intent(this, FakeCall.class));
                             pressedTime = 0;
                             counter = 0;
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-                System.out.println(counter);
+               // System.out.println(counter);
                 break;
         }
         return true;

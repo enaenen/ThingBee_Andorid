@@ -103,9 +103,13 @@ public class ChatHeadService extends Service {
 
             @Override
             public boolean onSingleTapUp(MotionEvent motionEvent) {
-                System.out.println(motionEvent.getAction());
-                startActivity(new Intent(getApplicationContext(), FakeCall.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                return true;
+                if(MainActivity.isEmergencyActive){
+                    return false;
+                }else{
+                    MainActivity.isEmergencyActive=true;
+                    startActivity(new Intent(getApplicationContext(), FakeCall.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    return true;
+                }
             }
 
             @Override

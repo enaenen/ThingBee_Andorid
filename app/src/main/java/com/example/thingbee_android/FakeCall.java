@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -98,6 +99,7 @@ public class FakeCall extends AppCompatActivity {
         player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
     }
 
+
     public void onClick(View view){
 
         switchBell(false);
@@ -108,6 +110,7 @@ public class FakeCall extends AppCompatActivity {
                 break;
             case R.id.cancel_call:
                 //이전 페이지로 이동
+                MainActivity.isEmergencyActive=false;
                 super.onBackPressed();
                 break;
             case R.id.link_112:
@@ -125,6 +128,7 @@ public class FakeCall extends AppCompatActivity {
 
                 break;
             case R.id.stop_call:
+                MainActivity.isEmergencyActive=false;
                 super.onBackPressed();
                 //비상 호출 종료
                 break;
@@ -200,6 +204,7 @@ public class FakeCall extends AppCompatActivity {
 
     private void checkPermission(int id){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+            MainActivity.isEmergencyActive=false;
             startActivity(new Intent(Intent.ACTION_CALL,Uri.parse(tel)));
         }else{
             try {
@@ -210,12 +215,15 @@ public class FakeCall extends AppCompatActivity {
             }
         }
     }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
     @Override
     public void onBackPressed() {
+        MainActivity.isEmergencyActive=false;
         player.stop();
         this.finish();
         super.onBackPressed();
-        //뒤로가기 버튼 못누르게 함
-
+        //뒤로가기 버튼 누르면 소리 울리는player 중지
     }
 }
