@@ -3,6 +3,7 @@ package com.example.thingbee_android;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -271,7 +272,7 @@ public class FragmentNews extends Fragment {
                     }
                 }
             }
-        )};
+        });
 
         for(int i=0;i<10;i++){
             final Button  btn = keywordsBtns[i];
