@@ -2,6 +2,7 @@ package com.example.thingbee_android;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,17 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.thingbee_android.retorift.ApiNewsService;
 import com.example.thingbee_android.retorift.ArticleInfoVO;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /*
@@ -41,6 +50,8 @@ onCreateViewHolder 메서드안의 내용을 잘 바꾸어야 내가 원하는 �
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<ArticleInfoVO> articles;
+    private Retrofit retrofit;
+    private ApiNewsService newsService;
     int nowPosition;
 
     // Provide a reference to the views for each data item
@@ -85,6 +96,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 .inflate(R.layout.my_view, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(ApiNewsService.API_URL)
+                .build();
+        newsService=retrofit.create(ApiNewsService.class);
+
         return vh;
     }
 
@@ -93,22 +110,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        ArticleInfoVO article= articles.get(position);
+        final ArticleInfoVO article= articles.get(position);
         if(article.getCode()!=null||article.getCode().equals("")||article.getImgURL()!=null) {
-            nowPosition=position;
             holder.article_title.setText(article.getTitle());
             holder.article_press.setText(article.getPressName());
             holder.article_summary.setText(article.getSummary());
             holder.article_date.setText(article.getArticleTime());
-            if(article.getImgURL()!=null && articles.get(position).getImgURL().startsWith("http")) {
+            if(article.getImgURL()!=null && article.getImgURL().startsWith("http")) {
                 Glide.with(holder.itemView.getContext()).load(article.getImgURL()).into(holder.article_img);
             }
             holder.article_press_btn.setText(article.getDistrictName());
             holder.article_info_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent (Intent.ACTION_VIEW, Uri.parse(articles.get(nowPosition).getUrl()));
+                    Intent intent = new Intent (Intent.ACTION_VIEW, Uri.parse(article.getUrl()));
                     view.getContext().startActivity(intent);
+                    increaseViewCount(article.getCode());
                 }
             });
         }
@@ -122,7 +139,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return articles.size();
     }
 
+    public void increaseViewCount(String articleId){
+        newsService.increaseViewCount(articleId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("countTest",response.body().toString());
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
 
 }
 
