@@ -3,12 +3,12 @@ package com.example.thingbee_android;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -60,6 +60,7 @@ public class FragmentNews extends Fragment {
     private ImageButton dateBtn;
     private ImageButton districtBtn;
     private Map<String, String> params;
+    private Button[] keywordsBtns;
 
     private boolean searchModeFlag;
 
@@ -69,17 +70,48 @@ public class FragmentNews extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_news, container, false);
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
 
 
 
         //값 초기화
+        initValues(view);
 
+        //검색 관련 이벤트 리스너 생성 및 설정
+        //검색창 버튼, 검색 옵션 버튼, 지역구 옵션 버튼, 날짜 옵션 버튼, 검색 버튼 리스너 생성
+        createSearchEventListener();
+
+        //키워드 가져오기
+        getKeyword();
+
+        //기사 초기화(myArticles)
+        initArticles();
+
+        mAdapter = new MyAdapter(myArticles);   //어댑터 생성, 데이터 부여
+        mRecyclerView.setAdapter(mAdapter);     //어댑터 등록
+
+        //스크롤이벤트
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!mRecyclerView.canScrollVertically(1)) {    //맨끝까지 닿았을 때
+                    add_article();
+                }
+            }
+        });
+
+        return view;
+    }
+
+    //필요한 값 셋팅
+    private void initValues(View view){
         //http 방식 통신 라이브러리
         retrofit= new Retrofit.Builder()
                 .baseUrl(ApiNewsService.API_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //GSON parser 라이브러리 사용
                 .build();
+
         newsService=retrofit.create(ApiNewsService.class);
 
         searchModeFlag=false;
@@ -137,6 +169,24 @@ public class FragmentNews extends Fragment {
 
         setDistrictNames();
 
+        //키워들를 표시할 버튼
+        keywordsBtns = new Button[]{
+                view.findViewById(R.id.keyword1),
+                view.findViewById(R.id.keyword2),
+                view.findViewById(R.id.keyword3),
+                view.findViewById(R.id.keyword4),
+                view.findViewById(R.id.keyword5),
+                view.findViewById(R.id.keyword6),
+                view.findViewById(R.id.keyword7),
+                view.findViewById(R.id.keyword8),
+                view.findViewById(R.id.keyword9),
+                view.findViewById(R.id.keyword10),
+        };
+    }
+
+    //검색 관련 이벤트 리스너 생성 및 설정
+    //검색창 버튼, 검색 옵션 버튼, 지역구 옵션 버튼, 날짜 옵션 버튼, 검색 버튼 리스너 생성
+    private void createSearchEventListener(){
         //검색창 보이기 버튼
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +227,6 @@ public class FragmentNews extends Fragment {
             @Override
             public void onClick(View view) {
                 //다이얼로그 생성 메서드 호출
-
                 makeOptionDialog(districtNames.toArray(new String[districtNames.size()]),"지역구를 선택하세요.","district");
             }
         });
@@ -186,10 +235,7 @@ public class FragmentNews extends Fragment {
         dateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 makeOptionDialog((String[])dates.toArray(new String[dates.size()]),"날짜를 선택하세요.","date");
-
             }
         });
 
@@ -203,7 +249,6 @@ public class FragmentNews extends Fragment {
                 searchArticle();
             }
         });
-
 
 
         initArticles();     //기사 초기화(myArticles),
@@ -226,9 +271,19 @@ public class FragmentNews extends Fragment {
                     }
                 }
             }
-        });
+        )};
 
-        return view;
+        for(int i=0;i<10;i++){
+            final Button  btn = keywordsBtns[i];
+            keywordsBtns[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    params.put("searchWord",btn.getText().toString());
+                    searchArticle();
+
+                }
+            });
+        }
     }
 
     //옵션 선택 다이얼로그를 만든다.
@@ -240,19 +295,18 @@ public class FragmentNews extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch(type){
                     case "date" :
-
                         params.put(type+"Tmp",datesRes.get(i));
                         dateText.setText(dates.get(i));
                         break;
                     case "district":
                         params.put(type+"Tmp",districtNames.get(i));
-
                         districtText.setText(districtNames.get(i));
                         break;
                 }
             }
         }).setCancelable(true).show();
     }
+
 
     private void searchScrollArticle(){
         int size= myArticles.size();
@@ -298,19 +352,52 @@ public class FragmentNews extends Fragment {
     }
 
 
+    //키워드 가져오기
+    private void getKeyword(){
+        Call<List<String>> call = newsService.updateKeyword(10);
+
+        call.enqueue(new Callback<List<String>>() {
+            @Override   //onRes, onFail 둘다 스레드로 돌기 때문에 윗라인 실행하고 initArticel 메서드는
+            //종료된다. 이후 다른작업을 하다가 아래 스레드가 실행된다.
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                List<String> result=response.body();
+                if(result!=null) {
+                    setKeyword(result);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    //키워드 버튼에 셋팅
+    private void setKeyword(List<String> result){
+        for(int i=0;i<keywordsBtns.length;i++){
+            keywordsBtns[i].setText(result.get(i));
+        }
+    }
+
+    //키워드 버튼 클릭시, 해당 키워드를 갖고 있는 기사 search
+//    private void searchArticleByKeyword(){
+//        params.put("lastArticleCode","");
+//
+//        return ;
+//    }
+
+
+    //기사 찾기
     private void searchArticle(){
         params.put("lastArticleCode","");
         params.put("mode","init");
-
-
         params.put("date", params.get("dateTmp"));
         params.put("district", params.get("districtTmp"));
         params.remove("dateTmp");
         params.remove("districtTmp");
 
-
         Call<List<ArticleInfoVO>> call = newsService.searchNews(params);
-
 
         call.enqueue(new Callback<List<ArticleInfoVO>>() {
             @Override   //onRes, onFail 둘다 스레드로 돌기 때문에 윗라인 실행하고 initArticel 메서드는
@@ -318,11 +405,9 @@ public class FragmentNews extends Fragment {
             public void onResponse(Call<List<ArticleInfoVO>> call, Response<List<ArticleInfoVO>> response) {
                 List<ArticleInfoVO> result=response.body();
 
-                Log.d("test",params.toString());
                 if(result!=null) {
                     myArticles.clear();
                     myArticles.addAll(result);
-                    Log.d("test", "기사: " + myArticles);
                     mAdapter.notifyDataSetChanged();    //데이터 업데이트
 
                     params.put("dateTmp","");
@@ -332,7 +417,6 @@ public class FragmentNews extends Fragment {
             }
             @Override
             public void onFailure(Call<List<ArticleInfoVO>> call, Throwable t) {
-                Log.d("searchArticle()","Exception 발생");
                 t.printStackTrace();
             }
         });
@@ -341,7 +425,6 @@ public class FragmentNews extends Fragment {
 
     public void initArticles(){
         Call<List<ArticleInfoVO>> call = newsService.getArticles("first");
-        Log.d("test", "call 할당");
         call.enqueue(new Callback<List<ArticleInfoVO>>() {
             @Override   //onRes, onFail 둘다 스레드로 돌기 때문에 윗라인 실행하고 initArticel 메서드는
             //종료된다. 이후 다른작업을 하다가 아래 스레드가 실행된다.
@@ -349,20 +432,17 @@ public class FragmentNews extends Fragment {
                 List<ArticleInfoVO> result=response.body();
                 myArticles.clear();
                 myArticles.addAll(result);
-                Log.d("test", "기사: "+myArticles);
                 mAdapter.notifyDataSetChanged();    //데이터 업데이트
             }
             @Override
             public void onFailure(Call<List<ArticleInfoVO>> call, Throwable t) {
-                Log.d("initArticle()","Exception 발생");
                 t.printStackTrace();
             }
         });
     }
 
     //모든 지역구 이름을 가져온다.
-
-    public void setDistrictNames(){
+    private void setDistrictNames(){
 
         Call<List<String>> call = newsService.getAllDistrict();
 
@@ -376,7 +456,6 @@ public class FragmentNews extends Fragment {
             }
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
-                Log.d("getDistrictNames()","Exception 발생");
                 t.printStackTrace();
             }
         });
@@ -391,7 +470,7 @@ public class FragmentNews extends Fragment {
         }else {
             call = newsService.getArticles(myArticles.get(size - 1).getCode());
         }
-        Log.d("test", "call 할당");
+
         call.enqueue(new Callback<List<ArticleInfoVO>>() {
             @Override
             public void onResponse(Call<List<ArticleInfoVO>> call, Response<List<ArticleInfoVO>> response) {
@@ -399,12 +478,10 @@ public class FragmentNews extends Fragment {
                 if(result!=null)
                     myArticles.addAll(result);
 
-                Log.d("test",result.toString());
                 mAdapter.notifyDataSetChanged();    //Recycle View의 데이터,화면 업데이트.
             }
             @Override
             public void onFailure(Call<List<ArticleInfoVO>> call, Throwable t) {
-                Log.d("test",  "Exception 발생");
                 t.printStackTrace();
             }
         });
