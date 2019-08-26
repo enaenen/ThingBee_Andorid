@@ -914,7 +914,7 @@ public class MapMain extends AppCompatActivity implements TMapGpsManager.onLocat
                 Log.d("right", String.valueOf(rightBottomPoint.getLongitude()));
                 Log.d("top", String.valueOf(leftTopPoint.getLatitude()));
                 Log.d("bottom", String.valueOf(rightBottomPoint.getLatitude()));
-                new AroundFacilityThread("http://192.168.30.244:8080/api/map/search/around"+
+                new AroundFacilityThread("http://think.powerlinux.co.kr/api/map/search/around"+
 //                        new AroundFacilityThread(getString(R.string.aroundFacilityURL)+
                         "?la="+rightBottomPoint.getLatitude()+
                         "&ka="+leftTopPoint.getLatitude()+
