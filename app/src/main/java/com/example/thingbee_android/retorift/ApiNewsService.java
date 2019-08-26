@@ -22,7 +22,7 @@ public interface ApiNewsService {
 
     //String version
     @GET("increaseViewCount")
-    Call<ResponseBody> getCommentStr();
+    Call<ResponseBody> increaseViewCount(@Query("articleId") String articleId);
 
     @GET("updateTopKeywords")
     Call<List<String>> updateKeyword(@Query("limit") int limit);
