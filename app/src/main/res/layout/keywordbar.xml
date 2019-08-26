@@ -4,77 +4,143 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:id="@+id/keywordBar"
-    android:background="#FFFFFFFF">
+    android:background="#FFD3D6DB"
+    android:padding="5dp"
+    >
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="48sp"
         android:scrollbars="none"
+        android:layout_gravity="center_vertical"
         >
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/keyword1"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드1"
-                android:textSize="20sp"/>
+                android:background="@drawable/keywordb_button"
+                android:textSize="20sp"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center_vertical"/>
+
             <Button
                 android:id="@+id/keyword2"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드2"
-                android:textSize="20sp" />
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/keyword3"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드3"
-                android:textSize="20sp"/>
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/keyword4"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드4"
-                android:textSize="20sp"/>
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/keyword5"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="키워드5"
-                android:textSize="20sp"/>
+                android:layout_height="wrap_content"
+                android:text="키워드4"
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
+
             <Button
                 android:id="@+id/keyword6"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드6"
-                android:textSize="20sp"/>
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/keyword7"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드7"
-                android:textSize="20sp"/>
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/keyword8"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드8"
-                android:textSize="20sp"/>
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:background="@drawable/keywordb_button"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/keyword9"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드9"
-                android:textSize="20sp"/>
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
             <Button
                 android:id="@+id/keyword10"
+                android:backgroundTint="#FFFFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="키워드10"
-                android:textSize="20sp"/>
+                android:background="@drawable/keywordb_button"
+                android:layout_margin="3dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
     </HorizontalScrollView>
