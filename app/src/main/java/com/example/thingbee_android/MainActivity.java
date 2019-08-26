@@ -1,9 +1,7 @@
 package com.example.thingbee_android;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceScreen;
-import androidx.preference.SwitchPreferenceCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.thingbee_android.fragment.EmergencyButtonFragment;
 import com.google.android.material.tabs.TabLayout;
-
-import java.lang.ref.Reference;
-import java.util.prefs.PreferenceChangeListener;
 
 public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_CODE = 3333;
@@ -96,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
 //        boolean statsbtn = sharedPreferences.getBoolean("btn_stats", false);
 //        boolean pathbtn = sharedPreferences.getBoolean("btn_path", false);
         emActive = sharedPreferences.getBoolean("emergency", false);
+
+//
+//        if(ContextCompat.checkSelfPermission(this, Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_GRANTED){
+//
+//        }else{
+//            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SYSTEM_ALERT_WINDOW},0);
+//        }
 
 //         버튼 등장 여부
         if(mapbtn) {
