@@ -2,11 +2,9 @@ package com.example.thingbee_android;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -95,7 +93,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Log.d("onBindViewHolder", articles.get(position).toString());
         ArticleInfoVO article= articles.get(position);
         if(article.getCode()!=null||article.getCode().equals("")||article.getImgURL()!=null) {
             nowPosition=position;
