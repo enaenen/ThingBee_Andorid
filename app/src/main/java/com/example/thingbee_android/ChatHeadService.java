@@ -42,20 +42,17 @@ public class ChatHeadService extends Service {
 
                 windowManager.updateViewLayout(chatHeadView, params);
 
-
                 return true;
             }
 
             if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-                params.x = (int)(motionEvent.getRawX()-33);
-                params.y = (int)(motionEvent.getRawY()-33);
+                params.x = (int)(motionEvent.getRawX()-100);
+                params.y = (int)(motionEvent.getRawY()-170);
 
                 windowManager.updateViewLayout(chatHeadView, params);
 
                 return true;
             }
-
-
             return true;
         }
     };
