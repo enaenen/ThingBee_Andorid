@@ -67,6 +67,8 @@
         android:id="@+id/safeMode"
         android:layout_width="70dp"
         android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="109dp"
         android:layout_marginRight="109dp"
@@ -74,6 +76,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detailPath"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
@@ -81,12 +84,15 @@
         android:id="@+id/safeTime"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
         android:layout_marginEnd="118dp"
         android:layout_marginRight="118dp"
-        android:text="00분"
+        android:text="0분"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detailPath"
         app:layout_constraintTop_toBottomOf="@+id/safeDistance"
         tools:ignore="MissingConstraints" />
 
@@ -94,12 +100,15 @@
         android:id="@+id/safeDistance"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginEnd="138dp"
         android:layout_marginRight="138dp"
         android:text="0.0km"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detailPath"
         app:layout_constraintTop_toBottomOf="@+id/safeMode"
         tools:ignore="MissingConstraints" />
 

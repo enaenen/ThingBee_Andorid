@@ -158,7 +158,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, container, false);
 
         LinearLayout relativeLayout = view.findViewById(R.id.linearLayoutTmap);
         btnSight = view.findViewById(R.id.btnSight);
@@ -219,7 +219,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
             }
         });
 
-        tMapView = new TMapView(mContext);  // 지도 생성
+        tMapView = new TMapView(this.getContext());  // 지도 생성
 //        tMapView.setUserScrollZoomEnable(true);
         tMapView.setSKTMapApiKey(getString(R.string.tMapKey));
         relativeLayout.addView( tMapView ); // 화면에 지도 추가
@@ -355,8 +355,8 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
 
     public void initGps() {
         // gps 관련
-        gps = new TMapGpsManager(mContext);
-        gps.setMinTime(3000);
+        gps = new TMapGpsManager(this.getContext());
+        gps.setMinTime(1000);
         gps.setMinDistance(5);
         gps.setProvider(gps.NETWORK_PROVIDER);  // 연결된 인터넷으로 현 위치를 받는다
 //        gps.setProvider(gps.GPS_PROVIDER);    // GPS로 현 위치를 잡는다
@@ -403,6 +403,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         gps.OpenGps();  // GPS 키고
         tMapView.setTrackingMode(true); //  현재 위치 트래킹
         tMapView.setIconVisibility(true);   // 현 위치 아이콘 표시
+
         sightFlag =true;    // 현 위치 모드 TRUE
         sightCenterFlag = true;     // 현재 위치가 화면 중심이다 ㅇㅇ
         btnSight.setImageResource(R.drawable.location_click);   // 이미지 변경
@@ -411,6 +412,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     // 현재 위치 끄기, 나침반도 같이 끄기
     public void hidePresentLocation(){
         gps.CloseGps();
+        TMapGpsManager temp = gps;
         tMapView.setIconVisibility(false); // 현재 위치 아이콘 숨기기
         tMapView.setSightVisible(false);    // 시야표시 숨기기
         tMapView.setTrackingMode(false);    // 현재 위치 트래킹 끄기
@@ -1281,29 +1283,30 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
 
     /// 시설물 찾기
     public void searchFacility() throws JSONException {
-        if(facility.getFourBtnOn()){
-            tMapView.setZoomLevel(18);
-        }
+//        if(facility.getFourBtnOn()){
+//            tMapView.setZoomLevel(18);
+//        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-            TMapPoint leftTopPoint = tMapView.getLeftTopPoint();
-            TMapPoint rightBottomPoint = tMapView.getRightBottomPoint();
 
-            try {
-                new HttpThread(getString(R.string.searchFacilityURL) +
-    //            new HttpThread("http://192.168.30.244:8080/api/map/search/mobile" +
-                        "?la="+rightBottomPoint.getLatitude()+
-                        "&ka="+leftTopPoint.getLatitude()+
-                        "&ea="+leftTopPoint.getLongitude()+
-                        "&ja="+rightBottomPoint.getLongitude()+
-                        "&facilFlag="+ URLEncoder.encode(facility.getFacilitiesFlag(),"UTF-8")+
-                        "&facilName="+ URLEncoder.encode(String.valueOf(facility.getFacilitiesName()),"UTF-8")).start();
-            } catch (UnsupportedEncodingException | JSONException e) {
-                e.printStackTrace();
-            }
             }
         },500);
+        TMapPoint leftTopPoint = tMapView.getLeftTopPoint();
+        TMapPoint rightBottomPoint = tMapView.getRightBottomPoint();
+
+        try {
+            new HttpThread(getString(R.string.searchFacilityURL) +
+                    //            new HttpThread("http://192.168.30.244:8080/api/map/search/mobile" +
+                    "?la="+rightBottomPoint.getLatitude()+
+                    "&ka="+leftTopPoint.getLatitude()+
+                    "&ea="+leftTopPoint.getLongitude()+
+                    "&ja="+rightBottomPoint.getLongitude()+
+                    "&facilFlag="+ URLEncoder.encode(facility.getFacilitiesFlag(),"UTF-8")+
+                    "&facilName="+ URLEncoder.encode(String.valueOf(facility.getFacilitiesName()),"UTF-8")).start();
+        } catch (UnsupportedEncodingException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     // 시설물 지도에 표시하는 스레드
