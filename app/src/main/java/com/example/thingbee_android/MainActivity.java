@@ -88,13 +88,6 @@ public class MainActivity extends AppCompatActivity {
 //        boolean pathbtn = sharedPreferences.getBoolean("btn_path", false);
         emActive = sharedPreferences.getBoolean("emergency", false);
 
-//
-//        if(ContextCompat.checkSelfPermission(this, Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_GRANTED){
-//
-//        }else{
-//            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SYSTEM_ALERT_WINDOW},0);
-//        }
-
 //         버튼 등장 여부
         if(mapbtn) {
             startOverlayWindowService(this);
