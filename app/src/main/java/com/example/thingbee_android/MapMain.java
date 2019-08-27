@@ -465,7 +465,7 @@ public class MapMain extends AppCompatActivity implements TMapGpsManager.onLocat
     public void getDetailPath() {
         detailFlag = true;
         showFragment(detailPathFragment);
-        detailPathFragment.changePath(pathInfoList, bundle );
+        detailPathFragment.changePath(pathInfoList, bundle, "");
         hideFragment(pathSimpleContent);
     }
 

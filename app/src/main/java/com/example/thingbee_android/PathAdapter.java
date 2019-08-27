@@ -18,6 +18,7 @@ public class PathAdapter extends BaseAdapter {
     public static final int STAIGHT = 11;
     public static final int TURN_LEFT = 12;
     public static final int TURN_RIGHT = 13;
+    public static final int U_TURN = 14;
     public static final int TURN_LEFT_8 = 16;
     public static final int TURN_LEFT_10 = 17;
     public static final int TURN_RIGHT_2 = 18;
@@ -107,6 +108,8 @@ public class PathAdapter extends BaseAdapter {
             case TURN_RIGHT_4 :
                 type.setImageResource(R.drawable.turn_right);
                 break;
+            case U_TURN :
+                type.setImageResource(R.drawable.u_turn_icon);
             case PASS :
                 break;
             case PASS1 :

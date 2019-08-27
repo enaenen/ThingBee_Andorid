@@ -153,7 +153,6 @@ public class FakeCall extends AppCompatActivity {
                         try {
                             Thread.sleep(1000);
                         } catch (Exception e) {
-                            System.out.println("COUNT DOWN THREAD ERROR");
                             e.printStackTrace();
                         }
                     }

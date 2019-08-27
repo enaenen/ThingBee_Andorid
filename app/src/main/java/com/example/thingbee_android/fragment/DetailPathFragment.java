@@ -1,6 +1,7 @@
 package com.example.thingbee_android.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -22,6 +23,9 @@ import com.example.thingbee_android.vo.PathInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.thingbee_android.FragmentMap.SAFE_PATH;
+import static com.example.thingbee_android.FragmentMap.SHORTEST_PATH;
 
 public class DetailPathFragment extends Fragment {//implements MapMain.OnBackKeyPressedListener {
 
@@ -59,7 +63,7 @@ public class DetailPathFragment extends Fragment {//implements MapMain.OnBackKey
             // l : 일반적으로 position과 같은 개념 ( id )
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ((FragmentMap)getParentFragment()).searchAroundFacility(i);
+                ((FragmentMap)getParentFragment()).searchAroundFacility(i,mode.getText().toString());
             }
         });
 
@@ -67,13 +71,24 @@ public class DetailPathFragment extends Fragment {//implements MapMain.OnBackKey
     }
 
     // 상세 경로 내용 바꾸기
-    public void changePath(List<Parcelable> path, Bundle bundle) {
+    public void changePath(List<Parcelable> path, Bundle bundle, String safeMode) {
         dataset.clear();
-
-        int time = bundle.getInt("time");
-        int minuteSum = time >= 60 ? time / 60 : 1;  // 총 시간으로 총 분으로 바꾸고 1분 미만은 무조건 1분으로
-
-        int distance = bundle.getInt("distance");
+        int time;
+        int minuteSum;
+        int distance;
+        if(safeMode.equals(SHORTEST_PATH)){
+            mode.setText(SHORTEST_PATH);
+            time = bundle.getInt("time");
+            distance = bundle.getInt("distance");
+            this.time.setTextColor(Color.RED);
+        }
+        else {
+            mode.setText(SAFE_PATH);
+            time = bundle.getInt("safeTime");
+            distance = bundle.getInt("safeDistance");
+            this.time.setTextColor(Color.BLUE);
+        }
+        minuteSum = time >= 60 ? time / 60 : 1;  // 총 시간으로 총 분으로 바꾸고 1분 미만은 무조건 1분으로
 
         // 1시간 이상이면 형식 바꿔주기
         if (minuteSum >= 60) {
@@ -88,7 +103,6 @@ public class DetailPathFragment extends Fragment {//implements MapMain.OnBackKey
         } else {
             this.distance.setText(distance + "m");
         }
-        mode.setText(bundle.getString("mode"));
 
         for (Parcelable p : path) {
             dataset.add((PathInfo) p);
