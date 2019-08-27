@@ -204,7 +204,6 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         placeList = new ArrayList<>();
         placeMarker = new ArrayList<>();
 
-        safePolyLine = new TMapPolyLine();
         safePolyLine.setID("safe");
         shortPolyLine = new TMapPolyLine();
         shortPolyLine.setID("short");
@@ -547,9 +546,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                             }
                         });
                         // 길찾기 데이터 얻어오기 전에 초기화 시키기 최단경로만 존재할 때는 안 해도 됨
-                        if(safetyPathFlag == true) {
-                            clearAllaboutPath();
-                        }
+                        clearAllAboutPath();
                         Thread shortPath = new ShortestPathThread(getString(R.string.findPathURL)+"?version=1&appKey="+getString(R.string.tMapKey),request); // 최단경로 찾기
 
                         shortPath.start();
@@ -565,7 +562,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         }
     }
 
-    public void clearAllaboutPath(){
+    public void clearAllAboutPath(){
         safetyPathFlag = false;   // 길 찾기 전에 안전경로 상태 false로 , 안전경로 찾아지면 true 로 변경됨
         bundle.clear(); // 길 찾기 할 때마다 bundle 초기화
         coordinatesList.clear();
@@ -574,6 +571,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         pointList.clear();
         pathInfoSafeList.clear();
         pathInfoList.clear();
+        safePolyLine = new TMapPolyLine();
         // 지도에 표시된 안전경로 지우기
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -587,8 +585,8 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     public void searchSafePath(JSONObject request){
         // 안전 경로를 제시하려면 출발, 도착을 제외한 좌표가 최소 2개는 있어야한다. (우리 로직 상 어쩔 수 없다)
         if(coordinatesList.size()>3){
-            new SafetyPathThread("http://192.168.30.244:8080/api/map/way/safe"+
-//            new SafetyPathThread(getString(R.string.searchSafePathURL)+
+//            new SafetyPathThread("http://192.168.30.244:8080/api/map/way/safe"+
+            new SafetyPathThread(getString(R.string.searchSafePathURL)+
                     "?startLat="+coordinatesList.get(1).getLatitude()+
                     "&startLon="+coordinatesList.get(1).getLongitude()+
                     "&endLat="+coordinatesList.get(coordinatesList.size()-2).getLatitude()+
@@ -728,7 +726,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_LONG).show();
+//                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_LONG).show();
                         }
                     });
                     return;
@@ -926,7 +924,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_LONG).show();
+//                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -1039,7 +1037,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                         }
                     });
                     return;
@@ -1347,7 +1345,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_LONG).show();
+//                            Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_LONG).show();
                         }
                     });
                     return;
@@ -1548,7 +1546,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                         }
                     });
                     return;
