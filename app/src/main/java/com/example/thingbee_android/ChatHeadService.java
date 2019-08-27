@@ -3,6 +3,7 @@ package com.example.thingbee_android;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
@@ -12,7 +13,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import androidx.preference.PreferenceManager;
 
 public class ChatHeadService extends Service {
 
@@ -20,6 +25,9 @@ public class ChatHeadService extends Service {
     private View chatHeadView;
     private WindowManager windowManager;
     private WindowManager.LayoutParams params;
+    private Boolean closeBtn;
+    private  Button button;
+    private RelativeLayout layout;
 
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
@@ -63,6 +71,22 @@ public class ChatHeadService extends Service {
 
         LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         chatHeadView = mInflater.inflate(R.layout.chathead_bubble, null);
+
+        closeBtn = false;
+
+        //롱 프레스시, 클릭하면 서비스 종료시킬 버튼
+        button = new Button(ChatHeadService.this);
+        layout = chatHeadView.findViewById(R.id.chathead_bubble);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //스위치 끄는 함수 호출
+                switchFlag();
+
+                //서비스를 멈춘다.
+                stopSelf();
+            }
+        });
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             params = new WindowManager.LayoutParams(
@@ -120,6 +144,19 @@ public class ChatHeadService extends Service {
             @Override
             public void onLongPress(MotionEvent motionEvent) {
 
+                //뷰에 추가 안되어있을 경우에 버튼 뷰에 추가시킴
+                if(!closeBtn){
+                    button.setText("close");
+                    layout.addView(button);
+
+                    //플래그 바꾸기
+                    closeBtn = true;
+                }else{  //뷰에 추가가 되어있는 경우, 길게 눌러서 버튼 없애기
+                    layout.removeView(button);
+
+                    closeBtn = false;
+                }
+
             }
 
             @Override
@@ -140,5 +177,18 @@ public class ChatHeadService extends Service {
         if(chatHeadView!=null){
             windowManager.removeView(chatHeadView);
         }
+    }
+
+    private void switchFlag(){
+
+        System.out.println("stop!!");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext() /* Activity context */);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        editor.putBoolean("btn_maps",false);
+
+        editor.commit();
     }
 }
