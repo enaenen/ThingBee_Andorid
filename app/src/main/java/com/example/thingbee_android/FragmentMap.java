@@ -204,6 +204,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         placeList = new ArrayList<>();
         placeMarker = new ArrayList<>();
 
+        safePolyLine = new TMapPolyLine();
         safePolyLine.setID("safe");
         shortPolyLine = new TMapPolyLine();
         shortPolyLine.setID("short");
