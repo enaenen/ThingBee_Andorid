@@ -1,6 +1,9 @@
 package com.example.thingbee_android;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,9 +14,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +75,9 @@ public class FakeCall extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fake_call);
+
+//        switchFlag(true);
+
 
         countDownText = findViewById(R.id.countDownText);
         countDownNumber = findViewById(R.id.countDownNumber);
@@ -224,5 +232,46 @@ public class FakeCall extends AppCompatActivity {
         this.finish();
         super.onBackPressed();
         //뒤로가기 버튼 누르면 소리 울리는player 중지
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        switchFlag(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        switchFlag(true);
+    }
+
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        switchFlag(true);
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        switchFlag(false);
+//    }
+
+    private void switchFlag(boolean flag){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this/* Activity context */);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        //액티비티 실행중 --> 서비스 끈다
+        if(flag){
+
+            editor.putBoolean("btn_maps",false);
+        }else{ //액티비티 실행 x --> 서비스 킨다
+
+            editor.putBoolean("btn_maps",true);
+        }
+
+        editor.commit();
     }
 }

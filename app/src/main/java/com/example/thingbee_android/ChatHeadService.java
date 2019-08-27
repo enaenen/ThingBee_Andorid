@@ -181,7 +181,6 @@ public class ChatHeadService extends Service {
 
     private void switchFlag(){
 
-        System.out.println("stop!!");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext() /* Activity context */);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
