@@ -56,7 +56,6 @@ public class FragmentSettings extends Fragment {
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 switch(key) {
                     case "btn_maps":
-                        //System.out.println(sharedPreferences.getBoolean("btn_maps", true)+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
                         if(sharedPreferences.getBoolean("btn_maps", true)){
 
                             if(!isServiceRunning()){

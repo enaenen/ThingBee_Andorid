@@ -16,9 +16,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.os.ParcelCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Handler;
@@ -75,6 +73,8 @@ import static android.view.View.VISIBLE;
  */
 public class FragmentMap extends Fragment implements TMapGpsManager.onLocationChangedCallback {
     Context mContext;
+    public static final String SHORTEST_PATH = "최단거리";
+    public static final String SAFE_PATH = "안전거리";
     public static final int REQUEST_ACCESS_FINE_LOCATION = 1000;
     public static final int SEARCH_PATH_ACITIVITY = 1;
     public static final int SEARCH_ONE_ACTIVITY =2;
@@ -122,6 +122,10 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     private List<TMapMarkerItem> lampList;
     private List<TMapMarkerItem> aroundList;
 
+    private TMapPolyLine safePolyLine; // 안전경로 폴리라인
+    private TMapPolyLine shortPolyLine; // 최단경로 폴리라인
+
+
     private List<TMapMarkerItem> pointList;
     private List<TMapMarkerItem> pointSafeList;
 
@@ -143,6 +147,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     private DetailPathFragment detailPathFragment;  // 상세 경로 프래그먼트
     private PathIndexFragment pathIndexFragment;    // 경로 아이템 프래그먼트
     private boolean detailFlag; // 상세 경로 표시 여부 플래그
+
 
     public FragmentMap() {
         // Required empty public constructor
@@ -186,13 +191,23 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         shopList = new ArrayList<>();
         lampList = new ArrayList<>();
         aroundList = new ArrayList<>();
+
         pointList = new ArrayList<>();
+        pointSafeList = new ArrayList<>();
 
         coordinatesList = new ArrayList<>();
+        coordinatesSafeList = new ArrayList<>();
+
         pathInfoList = new ArrayList<>();
+        pathInfoSafeList = new ArrayList<>();
+
         placeList = new ArrayList<>();
         placeMarker = new ArrayList<>();
 
+        safePolyLine = new TMapPolyLine();
+        safePolyLine.setID("safe");
+        shortPolyLine = new TMapPolyLine();
+        shortPolyLine.setID("short");
         animator = new FacilityAnimator(mContext);
 
         EditText searchTextBox = view.findViewById(R.id.searchTextBox);
@@ -516,7 +531,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                         // request.put("sort", index)
                         // 1) index : 노드의 종류에 상관없이 인덱스의 순서로 정렬
                         // 2) custom : 라인노드, 포인트노드의 순서로 정렬렬
-                        TMapData tMapData = new TMapData();
+                        final TMapData tMapData = new TMapData();
                         TMapPoint startPoint = new TMapPoint(startLat, startLon);
                         TMapPoint endPoint = new TMapPoint(endLat, endLon);
 
@@ -527,10 +542,14 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                         tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
                             @Override
                             public void onFindPathData(TMapPolyLine tMapPolyLine) {
-                                tMapView.addTMapPath(tMapPolyLine);
+                                shortPolyLine = tMapPolyLine;
+                                tMapView.addTMapPath(shortPolyLine);
                             }
                         });
-                        // 길찾기 데이터 얻어오기
+                        // 길찾기 데이터 얻어오기 전에 초기화 시키기 최단경로만 존재할 때는 안 해도 됨
+                        if(safetyPathFlag == true) {
+                            clearAllaboutPath();
+                        }
                         Thread shortPath = new ShortestPathThread(getString(R.string.findPathURL)+"?version=1&appKey="+getString(R.string.tMapKey),request); // 최단경로 찾기
 
                         shortPath.start();
@@ -546,12 +565,43 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
         }
     }
 
+    public void clearAllaboutPath(){
+        safetyPathFlag = false;   // 길 찾기 전에 안전경로 상태 false로 , 안전경로 찾아지면 true 로 변경됨
+        bundle.clear(); // 길 찾기 할 때마다 bundle 초기화
+        coordinatesList.clear();
+        coordinatesSafeList.clear();
+        pointSafeList.clear();
+        pointList.clear();
+        pathInfoSafeList.clear();
+        pathInfoList.clear();
+        // 지도에 표시된 안전경로 지우기
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tMapView.removeTMapPolyLine(safePolyLine.getID());
+                tMapView.removeAllMarkerItem();
+            }
+        });
+    }
+
     public void searchSafePath(JSONObject request){
-        new SafetyPathThread("http://192.168.30.244:8080/api/map/way/safe"+
-        "?startLat="+coordinatesList.get(1).getLatitude()+
-        "&startLon="+coordinatesList.get(1).getLongitude()+
-        "&endLat="+coordinatesList.get(coordinatesList.size()-2).getLatitude()+
-        "&endLon="+coordinatesList.get(coordinatesList.size()-2).getLongitude(), request).start(); // 최단경로 찾기
+        // 안전 경로를 제시하려면 출발, 도착을 제외한 좌표가 최소 2개는 있어야한다. (우리 로직 상 어쩔 수 없다)
+        if(coordinatesList.size()>3){
+            new SafetyPathThread("http://192.168.30.244:8080/api/map/way/safe"+
+//            new SafetyPathThread(getString(R.string.searchSafePathURL)+
+                    "?startLat="+coordinatesList.get(1).getLatitude()+
+                    "&startLon="+coordinatesList.get(1).getLongitude()+
+                    "&endLat="+coordinatesList.get(coordinatesList.size()-2).getLatitude()+
+                    "&endLon="+coordinatesList.get(coordinatesList.size()-2).getLongitude(), request).start(); // 최단경로 찾기
+        }
+        else {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext.getApplicationContext(), "길찾기 검색 결과가 없어요", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     @Override
@@ -562,14 +612,55 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     }
 
     // 상세 경로 보여주기
-    public void getDetailPath() {
+    public void getDetailPath(String mode) {
         detailFlag = true;
         showFragment(detailPathFragment);
-        detailPathFragment.changePath(pathInfoList, bundle );
+        switch (mode){
+            case SAFE_PATH:
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    // 안전 경로의 상세정보를 누르면 최단 거리 정보는 다 지우기
+                    public void run() {
+                        detailPathFragment.changePath(pathInfoSafeList, bundle, SAFE_PATH);
+                        tMapView.removeAllMarkerItem();
+                        tMapView.removeTMapPath();
+                        for(TMapMarkerItem marker : pointSafeList){
+                            tMapView.addMarkerItem(marker.getID(),marker);
+                        }
+                        tMapView.addTMapPolyLine("safe", safePolyLine);
+                    }
+                });
+                break;
+            case SHORTEST_PATH:
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    // 최단경로를 선택하면 안전경로 다 지우기
+                    public void run() {
+                        detailPathFragment.changePath(pathInfoList, bundle, SHORTEST_PATH);
+                        tMapView.removeAllMarkerItem();
+                        tMapView.removeTMapPolyLine("safe");
+                        for(TMapMarkerItem marker : pointList){
+                            tMapView.addMarkerItem(marker.getID(),marker);
+                        }
+                        tMapView.removeMarkerItem(pointList.get(0).getID());
+                        TMapData tMapData = new TMapData();
+                        tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, coordinatesList.get(0),coordinatesList.get(coordinatesList.size()-1) , new TMapData.FindPathDataListenerCallback() {
+                            @Override
+                            public void onFindPathData(TMapPolyLine tMapPolyLine) {
+                                tMapView.addTMapPath(tMapPolyLine);
+                            }
+                        });
+//                        tMapView.addTMapPolyLine("short",shortPolyLine);
+//                        tMapView.addTMapPath(shortPolyLine);
+                    }
+                });
+
+                break;
+        }
         hideFragment(pathSimpleContent);
     }
 
-    // 최단거리 구하는 스레드,
+    // 경로 구하는 스레드, -> 최단 거리 + 안전 경로 다 이 스레드 사용
     private class ShortestPathThread extends Thread {
         JSONObject data;
         String url;
@@ -595,15 +686,24 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 os.close();
 
                 int status = conn.getResponseCode();
-                InputStream is ;
+                InputStream is = null;
                 if(status == HttpURLConnection.HTTP_NO_CONTENT){
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext.getApplicationContext(), getString(R.string.noSearch), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext.getApplicationContext(), "길찾기 검색 결과가 없어요", Toast.LENGTH_LONG).show();
                         }
                     });
-                    return;
+                    return ;
+                }
+                else if(status == HttpURLConnection.HTTP_INTERNAL_ERROR){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext.getApplicationContext(), "길찾기 검색 결과가 없어요", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    return ;
                 }
                 else if(status != HttpURLConnection.HTTP_OK){
                     is = conn.getErrorStream();
@@ -623,7 +723,8 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 }
                 br.close();
                 result = buffer.toString();
-                if(status != HttpURLConnection.HTTP_OK) {
+                if(status != HttpURLConnection.HTTP_OK || result.equals("")) {
+                    Log.d("TMAP ERROR", String.valueOf(is));
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -641,29 +742,30 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 // 예상 시간
                 final int totalTime = features.getJSONObject(0).getJSONObject("properties").getInt("totalTime");
 
-                // 시간, 거리 간단 정보 띄우기
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if(facilityFlag) {
-                            hideFacilityBtn();
+                // 최단 거리 먼저 세팅
+                if(safetyPathFlag == false) {
+                    bundle.putString("mode", SHORTEST_PATH);
+                    bundle.putInt("time", totalTime);
+                    bundle.putInt("distance", totalDistance);
+                }
+                // 안전 거리 세팅 시간, 거리 간단 정보 띄우기
+                else{
+                    bundle.putString("safeMode",SAFE_PATH);
+                    bundle.putInt("safeTime",totalTime);
+                    bundle.putInt("safeDistance",totalDistance);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(facilityFlag) {
+                                hideFacilityBtn();
+                            }
+                            hideFragment(placeFragment);
+                            animator.getFacilityUp().start();
+                            showFragment(pathSimpleContent);
+                            pathSimpleContent.changeSimpleContent(bundle);
                         }
-
-                        // 간단 정보 프래그먼트 띄우기
-                        if(safetyPathFlag == false){
-                            bundle.putString("mode","최단거리");
-                        } else {
-                            bundle.putString("mode","안전거리");
-                        }
-                        bundle.putInt("time",totalTime);
-                        bundle.putInt("distance",totalDistance);
-                        hideFragment(placeFragment);
-                        animator.getFacilityUp().start();
-                        showFragment(pathSimpleContent);
-                        pathSimpleContent.changeSimpleContent(bundle);
-                    }
-                });
+                    });
+                }
 
                 if(safetyPathFlag == false){
                     // 상세 경로, 포인트 저장되어있는거 삭제
@@ -672,7 +774,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                         pointList.clear();
                     }
                 }else{
-                    if(pathInfoSafeList.size() != 0){
+                    if(pathInfoSafeList != null && pathInfoSafeList.size() != 0){
                         pathInfoSafeList.clear();
                         pointSafeList.clear();
                     }
@@ -683,9 +785,9 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 List<Parcelable> pathTemp;
 
                 if(safetyPathFlag == false){
-                    coordiTemp = coordinatesList;
-                    pointTemp = pointList;
-                    pathTemp = pathInfoList;
+                    coordiTemp = coordinatesList;   // 중간 안내점 좌표
+                    pointTemp = pointList;  // 중간 안내점 마커
+                    pathTemp = pathInfoList;    // 중간 안내점 상세 정보
                 }else {
                     coordiTemp = coordinatesSafeList;
                     pointTemp = pointSafeList;
@@ -697,6 +799,12 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                     JSONObject geometry = features.getJSONObject(i).getJSONObject("geometry");
                     if(geometry.getString("type").equals("Point")){
                         JSONArray coordinates = geometry.getJSONArray("coordinates");
+
+                        // 경유지 찍어서 안전 경로 안내해주는데 경유지 필요 없으니까 경유지면 건너 뛰기기
+                       String pointType  = features.getJSONObject(i).getJSONObject("properties").getString("pointType");
+                        if(pointType.contains("PP")){
+                            continue;
+                        }
                         coordiTemp.add(new TMapPoint(coordinates.getDouble(1),coordinates.getDouble(0)));
 
                         JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
@@ -710,19 +818,20 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
 
                 int resID;
 
-                // 안전 경로 그려주기 위한 설정
-                TMapPolyLine tMapPolyLine = new TMapPolyLine();
-                tMapPolyLine.setLineColor(Color.BLUE);
-                tMapPolyLine.setLineWidth(2);
+                // 최단 경로와 안전 경로 그려주기
+                if(safetyPathFlag == false) {
 
-                // 안전 경로 그려주기
-                for(int i=0; i<coordiTemp.size(); i++){
-                    tMapPolyLine.addLinePoint(coordiTemp.get(i));
                 }
-                tMapView.removeTMapPolyLine("safe");
-                tMapView.addTMapPolyLine("safe",tMapPolyLine);
+                else {
+                    safePolyLine.setLineColor(Color.BLUE);
+                    safePolyLine.setLineWidth(2);
+                    for(int i=0; i<coordiTemp.size(); i++){
+                        safePolyLine.addLinePoint(coordiTemp.get(i));
+                    }
+                    tMapView.addTMapPolyLine("safe", safePolyLine);
+                }
 
-                for(int i=1; i<coordiTemp.size()-1; i++){
+                for(int i=0; i<coordiTemp.size(); i++){
                     // 이미지 아이디 동적 결정
                     resID = getResources().getIdentifier("point"+i+"_icon","drawable",mContext.getPackageName());
 
@@ -733,20 +842,37 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                     markerItem.setIcon(bitmap);
                     markerItem.setPosition(0.5f,0.5f);
                     markerItem.setTMapPoint(tMapPoint);
-                    markerItem.setName("point");
-                    markerItem.setID(i+"");
-                    tMapView.addMarkerItem(i+"",markerItem);
-
+                    if(safetyPathFlag == false){
+                        markerItem.setName("point");
+                        markerItem.setID(i+"point");
+                    } else {
+                        markerItem.setName("safe_point");
+                        markerItem.setID(i+"safe_point");
+                    }
                     pointTemp.add(markerItem);   // 포인트 index 리슽트에 추가
                 }
-
-                // 지도 위치를 경로에 맞게 바꿔주기
-                TMapInfo tMapInfo = tMapView.getDisplayTMapInfo(coordinatesSafeList);
-                tMapView.setZoomLevel(tMapInfo.getTMapZoomLevel());
-                tMapView.setCenterPoint(tMapInfo.getTMapPoint().getLongitude(),tMapInfo.getTMapPoint().getLatitude());
+                // 안전거리는 마지막 마커가 몇 번째일지 모르니까 정해서 이미지 세팅해주고
+                if(safetyPathFlag == true){
+                    bitmap = BitmapFactory.decodeResource(mContext.getApplicationContext().getResources(), R.drawable.end_point);
+                    pointTemp.get(pointTemp.size()-1).setIcon(bitmap);
+                }
+                // 최단거리는 출발,도착을 api메소드가 알아서 찍어주니까 마커 설정할 필요 없다
+                else {
+//                    pointTemp.remove(0);
+//                    pointTemp.remove(pointTemp.size()-1);
+                }
+                // 최단 경로로 지도 위치를 경로에 맞게 바꿔주기
+                if(safetyPathFlag == false){
+                    TMapInfo tMapInfo = tMapView.getDisplayTMapInfo(coordinatesList);
+                    tMapView.setZoomLevel(tMapInfo.getTMapZoomLevel());
+                    tMapView.setCenterPoint(tMapInfo.getTMapPoint().getLongitude(),tMapInfo.getTMapPoint().getLatitude());
+                }
 
             }
-            catch(Exception e ){e.printStackTrace();}
+            catch(Exception e )
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -796,26 +922,42 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 }
                 br.close();
                 result = buffer.toString();
-                if(status != HttpURLConnection.HTTP_OK) {
+                if(status != HttpURLConnection.HTTP_OK ) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(mContext.getApplicationContext(), result, Toast.LENGTH_LONG).show();
                         }
                     });
-                    return;
                 }
                 // 에러가 발생하지 않은 경우
+                // 안전거리가 존재하지 않으면 최단거리만 보여주고 끝
+                if(result==null || result.equals("")){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(facilityFlag) {
+                                hideFacilityBtn();
+                            }
+                            hideFragment(placeFragment);
+                            animator.getFacilityUp().start();
+                            showFragment(pathSimpleContent);
+                            pathSimpleContent.changeSimpleContent(bundle);
+                        }
+                    });
+                    return;
+                }
+
                 JSONArray jsonArray = new JSONArray(result);
 
                 StringBuilder sb = new StringBuilder();     // sb : 경유지들의 위도 경도 좌표 이어 붙이기
-                double ratio = jsonArray.length()/4;
-                for(double i = jsonArray.length()/4 ; i<=jsonArray.length()/4; i += ratio){
-                    if(i > jsonArray.length()/4) {
+                double ratio = jsonArray.length()/4.0;  // 경유지 찍기위해 4등분
+                for(double i = ratio ; i<jsonArray.length(); i += ratio){
+                    if(i > jsonArray.length()/4.0) {
                         sb.append("_");
                     }
                     // 경유지 찍어서 경로 보내기 그냥 경유지 3개 찍어서 결과 하나만 받아오자 두개 이어 붙이기 귀찮다.
-                    JSONObject object = jsonArray.getJSONObject((int)ratio);
+                    JSONObject object = jsonArray.getJSONObject((int)i);
 
 
 
@@ -1095,7 +1237,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     }
 
     // 경로 주변 시설물 표시
-    public void searchAroundFacility(final int i) {
+    public void searchAroundFacility(final int i, final String mode) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -1105,27 +1247,32 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 aroundList.clear();
                 hideFragment(detailPathFragment);
                 showFragment(pathIndexFragment);
-                pathIndexFragment.changePathIndex(pathInfoList.get(i));
+
+                List<Parcelable> pathTemp = null;
+                ArrayList<TMapPoint> pointTemp = null;
+                if(mode.equals(SHORTEST_PATH)){
+                    pathTemp = pathInfoList;
+                    pointTemp = coordinatesList;
+                }else if(mode.equals(SAFE_PATH)){
+                    pathTemp = pathInfoSafeList;
+                    pointTemp = coordinatesSafeList;
+                }
+                pathIndexFragment.changePathIndex(pathTemp.get(i));
                 tMapView.setZoomLevel(18);
-                tMapView.setCenterPoint(coordinatesList.get(i).getLongitude(), coordinatesList.get(i).getLatitude()); // 지도 화면 선택한 상세 정보 위치로 바꾸기
+                tMapView.setCenterPoint(pointTemp.get(i).getLongitude(), pointTemp.get(i).getLatitude()); // 지도 화면 선택한 상세 정보 위치로 바꾸기
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
-                    }
-                },500);
-                TMapPoint leftTopPoint = tMapView.getLeftTopPoint();
-                TMapPoint rightBottomPoint = tMapView.getRightBottomPoint();
-                Log.d("left", String.valueOf(leftTopPoint.getLongitude()));
-                Log.d("right", String.valueOf(rightBottomPoint.getLongitude()));
-                Log.d("top", String.valueOf(leftTopPoint.getLatitude()));
-                Log.d("bottom", String.valueOf(rightBottomPoint.getLatitude()));
+                        TMapPoint leftTopPoint = tMapView.getLeftTopPoint();
+                        TMapPoint rightBottomPoint = tMapView.getRightBottomPoint();
 //                new AroundFacilityThread("http://192.168.30.244:8080/api/map/search/around"+
                         new AroundFacilityThread(getString(R.string.aroundFacilityURL)+
-                        "?la="+rightBottomPoint.getLatitude()+
-                        "&ka="+leftTopPoint.getLatitude()+
-                        "&ea="+leftTopPoint.getLongitude()+
-                        "&ja="+rightBottomPoint.getLongitude()).start();    // 해당 부분의 모든 시설물 가져오기
+                                "?la="+rightBottomPoint.getLatitude()+
+                                "&ka="+leftTopPoint.getLatitude()+
+                                "&ea="+leftTopPoint.getLongitude()+
+                                "&ja="+rightBottomPoint.getLongitude()).start();    // 해당 부분의 모든 시설물 가져오기
+                    }
+                },500);
             }
         });
 
@@ -1135,34 +1282,29 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
 
     /// 시설물 찾기
     public void searchFacility() throws JSONException {
-//        if(facility.getFourBtnOn()){
-//            tMapView.setZoomLevel(18);
-//        }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-        TMapPoint leftTopPoint = tMapView.getLeftTopPoint();
-        TMapPoint rightBottomPoint = tMapView.getRightBottomPoint();
-
-        double top = leftTopPoint.getLatitude();
-        double left = leftTopPoint.getLongitude();
-        double bottom = rightBottomPoint.getLatitude();
-        double right = rightBottomPoint.getLongitude();
-
-        try {
-            new HttpThread(getString(R.string.searchFacilityURL) +
-//            new HttpThread("http://192.168.30.244:8080/api/map/search/mobile" +
-                    "?la="+bottom+
-                    "&ka="+top+
-                    "&ea="+left+
-                    "&ja="+right+
-                    "&facilFlag="+ URLEncoder.encode(facility.getFacilitiesFlag(),"UTF-8")+
-                    "&facilName="+ URLEncoder.encode(String.valueOf(facility.getFacilitiesName()),"UTF-8")).start();
-        } catch (UnsupportedEncodingException | JSONException e) {
-            e.printStackTrace();
+        if(facility.getFourBtnOn()){
+            tMapView.setZoomLevel(18);
         }
-//            }
-//        },500);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            TMapPoint leftTopPoint = tMapView.getLeftTopPoint();
+            TMapPoint rightBottomPoint = tMapView.getRightBottomPoint();
+
+            try {
+                new HttpThread(getString(R.string.searchFacilityURL) +
+    //            new HttpThread("http://192.168.30.244:8080/api/map/search/mobile" +
+                        "?la="+rightBottomPoint.getLatitude()+
+                        "&ka="+leftTopPoint.getLatitude()+
+                        "&ea="+leftTopPoint.getLongitude()+
+                        "&ja="+rightBottomPoint.getLongitude()+
+                        "&facilFlag="+ URLEncoder.encode(facility.getFacilitiesFlag(),"UTF-8")+
+                        "&facilName="+ URLEncoder.encode(String.valueOf(facility.getFacilitiesName()),"UTF-8")).start();
+            } catch (UnsupportedEncodingException | JSONException e) {
+                e.printStackTrace();
+            }
+            }
+        },500);
     }
 
     // 시설물 지도에 표시하는 스레드
@@ -1340,10 +1482,14 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
                 new DetailThread(getString(R.string.facilityDetailURL)+"?code="+clickMarker.getID(),
                         clickMarker.getTMapPoint().getLatitude(),clickMarker.getTMapPoint().getLongitude()).start();
             }
-            // 이름이 포인트면 경로
-            else if (clickMarker.getName().equals("point")){
-                searchAroundFacility(Integer.parseInt(clickMarker.getID()));
+            else if(clickMarker.getName().equals("point")){
+                searchAroundFacility(Integer.parseInt(clickMarker.getID().substring(0,1)),SHORTEST_PATH);
             }
+            // 이름이 포인트면 경로 중간 안내점
+            else if (clickMarker.getName().contains("point")){
+                searchAroundFacility(Integer.parseInt(clickMarker.getID().substring(0,1)),SAFE_PATH);
+            }
+
             // 장소 마커 상세 정보 프래그먼트에 띄우기
             else if(clickMarker.getName().equals("place")){
                 selectedPlace = placeList.get(placeMarker.indexOf(arrayList.get(0)));
