@@ -280,7 +280,7 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
             }
         });
 
-        initGps();
+//        initGps();
         bundle = new Bundle();
 
 
@@ -370,16 +370,16 @@ public class FragmentMap extends Fragment implements TMapGpsManager.onLocationCh
     public void onSight(View view){
         // 현위치, 나침반 모드 끄기
         if (sightFlag == true && compassFlag == true) {
-            hidePresentLocation();
+//            hidePresentLocation();
         }
         // 현위치만 표시되어있을때 나침반 모드 켜기
         else if(sightFlag == true){
-            onCompassMode();
+//            onCompassMode();
         }
         // 현 위치 모드 켜기
         else {
             if(checkLocationPermission() == true) {
-                showPresentLocation();
+//                showPresentLocation();
             }
         }
     }
